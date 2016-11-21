@@ -23,7 +23,7 @@ public class LoginScreen extends IScene{
     public LoginScreen(Stage stage)
     {
         layout = new BorderPane();
-
+        Intuition.setIsLoggedIn(false);
         scene = new Scene(layout, 800, 500);
         layout.setStyle("-fx-background-color: #202936");
         this.stage = stage;
@@ -124,7 +124,7 @@ public class LoginScreen extends IScene{
         center.getChildren().addAll(loginUsernamePane, loginPasswordPane, loginButtonPane);
 
         layout.setCenter(center);
-        layout.setTop(Header.GetHeader(stage));
+        layout.setTop(Header.GetHeader(this));
 
         // Add ability to drag window without any platform decoration.
         Tools.addDragToScene(layout, this);
@@ -132,6 +132,7 @@ public class LoginScreen extends IScene{
 
     private void login() {
         System.out.println("Check login info. If authenticated, proceed to main logged in screen");
+        Intuition.setIsLoggedIn(true);
         Intuition.indexScreen = new IndexScreen(stage);
         stage.setScene(Intuition.indexScreen.getScene());
     }

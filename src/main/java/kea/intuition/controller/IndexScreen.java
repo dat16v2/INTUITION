@@ -14,7 +14,7 @@ public class IndexScreen extends IScene {
         layout.setStyle("-fx-background-color: #202936");
         this.stage = stage;
 
-        layout.setTop(Header.GetHeader(stage));
+        layout.setTop(Header.GetHeader(this));
         Label authorizedText = new Label("Authorized.");
         authorizedText.setStyle("-fx-text-fill: #ffffff");
         layout.setCenter(authorizedText);
