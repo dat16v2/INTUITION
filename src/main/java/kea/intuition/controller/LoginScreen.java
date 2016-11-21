@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -130,6 +131,7 @@ public class LoginScreen {
         StackPane logoPane = new StackPane();
         StackPane loginUsernamePane = new StackPane();
         StackPane loginPasswordPane = new StackPane();
+        StackPane loginButtonPane = new StackPane();
 
         // LOGO STUFF
         Image logo = new Image("/intuition_logo.png");
@@ -156,9 +158,49 @@ public class LoginScreen {
         passwordInput.setPromptText("Password");
         passwordInput.setStyle("-fx-background-color: #232d3b; -fx-text-fill: #3e4f66");
 
+        Button loginButton = new Button();
+        loginButton.setText("Login");
+        loginButton.setStyle("-fx-background-color: #2d3a4c; -fx-text-fill: #ffffff");
+
+        loginButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                loginButton.setStyle("-fx-background-color: #3b4e66; -fx-text-fill: #ffffff");
+            }
+        });
+
+        loginButton.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                loginButton.setStyle("-fx-background-color: #1e2632; -fx-text-fill: #ffffff");
+            }
+        });
+
+        loginButton.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                loginButton.setStyle("-fx-background-color: #3b4e66; -fx-text-fill: #ffffff");
+            }
+        });
+
+        loginButton.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                loginButton.setStyle("-fx-background-color: #2d3a4c; -fx-text-fill: #ffffff");
+            }
+        });
+
+        loginButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("Check login info. If authenticated, proceed to main logged in screen");
+            }
+        });
+
         loginUsernamePane.getChildren().add(usernameInput);
         loginPasswordPane.getChildren().add(passwordInput);
-        center.getChildren().addAll(loginUsernamePane, loginPasswordPane);
+        loginButtonPane.getChildren().add(loginButton);
+        center.getChildren().addAll(loginUsernamePane, loginPasswordPane, loginButtonPane);
 
         layout.setCenter(center);
         layout.setTop(header);
