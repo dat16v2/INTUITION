@@ -2,12 +2,14 @@ package kea.intuition.controller;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 import kea.intuition.Intuition;
 
 public class Header {
@@ -92,10 +94,35 @@ public class Header {
         maximizeView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if (scene.stage.isMaximized()) {
-                    scene.stage.setMaximized(false);
+                if (Intuition.isnIsMaximized()) {
+                    switch (Intuition.os) {
+                        case 1:
+                            scene.stage.setMaximized(false);
+                            Intuition.setnIsMaximized(false);
+                            break;
+                        default:
+                            scene.stage.setWidth(800);
+                            scene.stage.setHeight(500);
+                            scene.stage.centerOnScreen();
+                            Intuition.setnIsMaximized(false);
+                            break;
+                    }
                 } else {
-                    scene.stage.setMaximized(true);
+                    switch (Intuition.os) {
+                        case 1:
+                            scene.stage.setMaximized(true);
+                            Intuition.setnIsMaximized(true);
+                            break;
+                        default:
+                            Screen screen = Screen.getPrimary();
+                            Rectangle2D bounds = screen.getVisualBounds();
+                            scene.stage.setX(bounds.getMinX());
+                            scene.stage.setY(bounds.getMinY());
+                            scene.stage.setWidth(bounds.getWidth());
+                            scene.stage.setHeight(bounds.getHeight());
+                            Intuition.setnIsMaximized(true);
+                            break;
+                    }
                 }
             }
         });
