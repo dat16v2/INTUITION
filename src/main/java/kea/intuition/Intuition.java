@@ -2,9 +2,11 @@ package kea.intuition;
 
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import kea.intuition.controller.IndexScreen;
 import kea.intuition.controller.LoginScreen;
 
 public class Intuition {
+    public static IndexScreen indexScreen;
     public static void Initialize(Stage stage)
     {
         stage.setTitle("INTUITION");
