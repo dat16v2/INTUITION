@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="INTUITION JAR" type="JarApplication" factoryName="JAR Application">
+    <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+    <option name="JAR_PATH" value="$PROJECT_DIR$/out/INTUITION-1.0.jar" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <envs />
+    <method>
+      <option name="BuildArtifacts" enabled="true">
+        <artifact name="INTUITION" />
+      </option>
+    </method>
+  </configuration>
+</component>
