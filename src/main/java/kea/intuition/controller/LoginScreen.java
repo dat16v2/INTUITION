@@ -8,6 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -52,12 +54,30 @@ public class LoginScreen extends IScene{
         usernameInput.setPromptText("Username");
         usernameInput.setStyle("-fx-background-color: #232d3b; -fx-text-fill: #3e4f66");
 
+        usernameInput.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER) {
+                    login();
+                }
+            }
+        });
+
         TextField passwordInput = new TextField();
         passwordInput.setMaxWidth(250);
         passwordInput.setMinHeight(30);
         passwordInput.setAlignment(Pos.CENTER);
         passwordInput.setPromptText("Password");
         passwordInput.setStyle("-fx-background-color: #232d3b; -fx-text-fill: #3e4f66");
+
+        passwordInput.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER) {
+                    login();
+                }
+            }
+        });
 
         Button loginButton = new Button();
         loginButton.setText("Login");
@@ -94,9 +114,7 @@ public class LoginScreen extends IScene{
         loginButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("Check login info. If authenticated, proceed to main logged in screen");
-                Intuition.indexScreen = new IndexScreen(stage);
-                stage.setScene(Intuition.indexScreen.getScene());
+                login();
             }
         });
 
@@ -110,5 +128,11 @@ public class LoginScreen extends IScene{
 
         // Add ability to drag window without any platform decoration.
         Tools.addDragToScene(layout, this);
+    }
+
+    private void login() {
+        System.out.println("Check login info. If authenticated, proceed to main logged in screen");
+        Intuition.indexScreen = new IndexScreen(stage);
+        stage.setScene(Intuition.indexScreen.getScene());
     }
 }
