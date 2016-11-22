@@ -1,14 +1,16 @@
 package kea.intuition;
 
-import javafx.geometry.Rectangle2D;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import kea.intuition.controller.EventScreen;
 import kea.intuition.controller.IndexScreen;
 import kea.intuition.controller.LoginScreen;
 
 public class Intuition {
+    public final static int MINHEIGHT = 500;
+    public final static int MINWIDTH = 800;
     public static IndexScreen indexScreen;
+    public static EventScreen eventScreen;
     public static LoginScreen loginScreen;
     public static int os;
     private static boolean isLoggedIn;
@@ -33,14 +35,10 @@ public class Intuition {
     public static void Initialize(Stage stage)
     {
         stage.setTitle("INTUITION");
-        stage.setMinHeight(500);
-        stage.setMinWidth(800);
+        stage.setMinHeight(MINHEIGHT);
+        stage.setMinWidth(MINWIDTH);
 
-        Screen screen = Screen.getPrimary();
-        Rectangle2D bounds = screen.getVisualBounds();
-        stage.setMaxHeight(bounds.getHeight());
-        stage.setMaxWidth(bounds.getWidth());
-
+        Fonts.Init();
         os = Tools.determineOS();
         nIsMaximized = false;
 

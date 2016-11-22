@@ -3,6 +3,7 @@ package kea.intuition.controller;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -10,6 +11,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
+import kea.intuition.Fonts;
 import kea.intuition.Intuition;
 
 public class Header {
@@ -114,7 +116,7 @@ public class Header {
                             Intuition.setnIsMaximized(true);
                             break;
                         default:
-                            Screen screen = Screen.getPrimary();
+                            Screen screen = Screen.getScreensForRectangle(scene.stage.getX(), scene.stage.getY(), scene.stage.getWidth(), scene.stage.getHeight()).get(0);
                             Rectangle2D bounds = screen.getVisualBounds();
                             scene.stage.setX(bounds.getMinX());
                             scene.stage.setY(bounds.getMinY());
@@ -143,6 +145,7 @@ public class Header {
 
             logoPane.setPadding(new Insets(8, 0, 0, 7));
 
+            // Separator between logo and menu
             Image sep = new Image("/header_sep.png");
             ImageView sepView = new ImageView();
             HBox sepPane = new HBox(1);
@@ -151,11 +154,80 @@ public class Header {
             sepView.setFitHeight(24);
             sepPane.getChildren().add(sepView);
 
-            sepPane.setPadding(new Insets(13, 0, 0, 5));
+            sepPane.setPadding(new Insets(13, 10, 0, 5));
 
             header.getChildren().addAll(logoPane, sepPane);
+
+            // Menu bar
+
+            HBox menuBarPane = new HBox(0);
+            menuBarPane.setPadding(new Insets(0, 0, 0, 0));
+
+            addLabel("Companies", 1, menuBarPane, scene);
+
+            addLabel("Events", 2, menuBarPane, scene);
+
+            addLabel("Placeholder", 3, menuBarPane, scene);
+
+            header.getChildren().add(menuBarPane);
         }
 
         return header;
+    }
+
+    static void addLabel(String labelText, int sceneId, Pane payload, IScene scene) {
+        Label label = new Label();
+        label.setText(labelText);
+
+        if (scene.sceneId == sceneId) {
+            label.setStyle("-fx-text-fill: #b182e9; -fx-font-size: 23px; -fx-font-family: 'Open Sans Semibold'; -fx-font-weight: 600; -fx-background-color: #252f3e; -fx-padding: 9 5 7 5;");
+        } else {
+            label.setStyle("-fx-text-fill: #858c97; -fx-font-size: 23px; -fx-font-family: 'Open Sans Semibold'; -fx-font-weight: 600; -fx-padding: 9 5 7 5;");
+            label.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    label.setStyle("-fx-text-fill: #b182e9; -fx-font-size: 23px; -fx-font-family: 'Open Sans Semibold'; -fx-font-weight: 600; -fx-background-color: #252f3e; -fx-padding: 9 5 7 5;");
+                }
+            });
+
+            label.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    label.setStyle("-fx-text-fill: #9c73ce; -fx-font-size: 23px; -fx-font-family: 'Open Sans Semibold'; -fx-font-weight: 600; -fx-background-color: #202735; -fx-padding: 9 5 7 5;");
+                }
+            });
+
+            label.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    label.setStyle("-fx-text-fill: #b182e9; -fx-font-size: 23px; -fx-font-family: 'Open Sans Semibold'; -fx-font-weight: 600; -fx-background-color: #252f3e; -fx-padding: 9 5 7 5;");
+                }
+            });
+
+            label.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    label.setStyle("-fx-text-fill: #858c97; -fx-font-size: 23px; -fx-font-family: 'Open Sans Semibold'; -fx-font-weight: 600; -fx-padding: 9 5 7 5;");
+                }
+            });
+
+            label.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    switch (sceneId) {
+                        case 1:
+                            scene.stage.setScene(Intuition.indexScreen.getScene());
+                            break;
+                        case 2:
+                            scene.stage.setScene(Intuition.eventScreen.getScene());
+                            break;
+                    }
+                }
+            });
+        }
+
+        label.setFont(Fonts.OpenSansBold);
+
+        payload.getChildren().add(label);
     }
 }

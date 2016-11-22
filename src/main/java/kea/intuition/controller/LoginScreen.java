@@ -24,7 +24,7 @@ public class LoginScreen extends IScene{
     {
         layout = new BorderPane();
         Intuition.setIsLoggedIn(false);
-        scene = new Scene(layout, 800, 500);
+        scene = new Scene(layout, Intuition.MINWIDTH, Intuition.MINHEIGHT);
         layout.setStyle("-fx-background-color: #202936");
         this.stage = stage;
 
@@ -134,6 +134,7 @@ public class LoginScreen extends IScene{
         System.out.println("Check login info. If authenticated, proceed to main logged in screen");
         Intuition.setIsLoggedIn(true);
         Intuition.indexScreen = new IndexScreen(stage);
+        Intuition.eventScreen = new EventScreen(stage);
         stage.setScene(Intuition.indexScreen.getScene());
     }
 }

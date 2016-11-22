@@ -2,20 +2,21 @@ package kea.intuition.controller;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import kea.intuition.Intuition;
 import kea.intuition.Tools;
 
-// ID: 1
-public class IndexScreen extends IScene {
+// ID: 2
+public class EventScreen extends IScene {
 
-    public IndexScreen(Stage stage) {
-        sceneId = 1;
+    public EventScreen(Stage stage) {
+        sceneId = 2;
         layout = new BorderPane();
         scene = new Scene(this.layout, Intuition.MINWIDTH, Intuition.MINHEIGHT);
-        
         scene.setFill(Paint.valueOf("#202936"));
         layout.setStyle("-fx-background-color: #202936");
         this.stage = stage;
@@ -27,7 +28,7 @@ public class IndexScreen extends IScene {
         Pane bodyPane = new StackPane();
         bodyPane.setStyle("-fx-background-color: #252f3e");
 
-        Label authorizedText = new Label("Authorized.");
+        Label authorizedText = new Label("Events n' stuff.");
         authorizedText.setStyle("-fx-text-fill: #ffffff");
 
         bodyPane.getChildren().add(authorizedText);

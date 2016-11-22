@@ -8,6 +8,7 @@ public abstract class IScene {
     Scene scene;
     BorderPane layout;
     public Stage stage;
+    public int sceneId = 0;
     public double xOffset = 0;
     public double yOffset = 0;
 
