@@ -1,5 +1,6 @@
 package kea.intuition.controller;
 
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
@@ -14,8 +15,8 @@ public class IndexScreen extends IScene {
     public IndexScreen(Stage stage) {
         sceneId = 1;
         layout = new BorderPane();
-        scene = new Scene(this.layout, Intuition.Config.getMINWIDTH(), Intuition.Config.getMINHEIGHT());
-        
+        layout.setBackground(new Background(new BackgroundFill(Paint.valueOf("#202936"), CornerRadii.EMPTY, Insets.EMPTY)));
+        scene = new Scene(this.layout, Intuition.Config.getMINWIDTH(), Intuition.Config.getMINHEIGHT(), Paint.valueOf("#202936"));
         scene.setFill(Paint.valueOf("#202936"));
         layout.setStyle("-fx-background-color: #202936");
         this.stage = stage;

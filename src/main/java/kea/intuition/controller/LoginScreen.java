@@ -11,9 +11,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import kea.intuition.Intuition;
 import kea.intuition.IntuitionLoginEvent;
@@ -24,8 +23,9 @@ public class LoginScreen extends IScene{
     public LoginScreen(Stage stage)
     {
         layout = new BorderPane();
+        layout.setBackground(new Background(new BackgroundFill(Paint.valueOf("#202936"), CornerRadii.EMPTY, Insets.EMPTY)));
         Intuition.setIsLoggedIn(false);
-        scene = new Scene(layout, Intuition.Config.getMINWIDTH(), Intuition.Config.getMINHEIGHT());
+        scene = new Scene(layout, Intuition.Config.getMINWIDTH(), Intuition.Config.getMINHEIGHT(), Paint.valueOf("#202936"));
         layout.setStyle("-fx-background-color: #202936");
         this.stage = stage;
 
