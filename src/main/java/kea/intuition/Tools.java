@@ -1,11 +1,14 @@
 package kea.intuition;
 
+import javafx.beans.NamedArg;
+import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.event.EventTarget;
+import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
-import kea.intuition.controller.IScene;
-
 import java.util.Properties;
+import kea.intuition.controller.IScene;
 
 public class Tools {
     public static void addDragToScene(Node primaryNode, IScene scene) {
@@ -26,22 +29,22 @@ public class Tools {
         });
     }
 
-    public static int determineOS() {
-        int os = 0;
+    public static Os determineOS() {
+        Os os = Os.LINUX;
         String osString;
         Properties osProperties = System.getProperties();
         osString = osProperties.getProperty("os.name");
 
         if (osString.contains("windows")) {
-            os = 1;
+            os = Os.WINDOWS;
         }
 
         if (osString.contains("mac")) {
-            os = 2;
+            os = Os.MACOS;
         }
 
         if (osString.contains("linux")) {
-            os = 0;
+            os = Os.LINUX;
         }
 
         return os;

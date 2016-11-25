@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import kea.intuition.Fonts;
 import kea.intuition.Intuition;
+import kea.intuition.IntuitionSceneEvent;
 
 public class Header {
     public static Pane GetHeader(IScene scene) {
@@ -97,8 +98,8 @@ public class Header {
             @Override
             public void handle(MouseEvent event) {
                 if (Intuition.isnIsMaximized()) {
-                    switch (Intuition.os) {
-                        case 1:
+                    switch (Intuition.Config.getOs()) {
+                        case WINDOWS:
                             scene.stage.setMaximized(false);
                             Intuition.setnIsMaximized(false);
                             break;
@@ -110,8 +111,8 @@ public class Header {
                             break;
                     }
                 } else {
-                    switch (Intuition.os) {
-                        case 1:
+                    switch (Intuition.Config.getOs()) {
+                        case WINDOWS:
                             scene.stage.setMaximized(true);
                             Intuition.setnIsMaximized(true);
                             break;
@@ -214,14 +215,10 @@ public class Header {
             label.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    switch (sceneId) {
-                        case 1:
-                            scene.stage.setScene(Intuition.indexScreen.getScene());
-                            break;
-                        case 2:
-                            scene.stage.setScene(Intuition.eventScreen.getScene());
-                            break;
-                    }
+                    IntuitionSceneEvent intuitionSceneEvent = new IntuitionSceneEvent(null, null, IntuitionSceneEvent.SCENE_CHANGE_EVENT);
+                    intuitionSceneEvent.setSceneId(sceneId);
+
+                    IntuitionSceneEvent.fireEvent(scene.stage, intuitionSceneEvent);
                 }
             });
         }

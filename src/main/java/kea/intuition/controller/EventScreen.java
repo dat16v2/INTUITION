@@ -16,7 +16,7 @@ public class EventScreen extends IScene {
     public EventScreen(Stage stage) {
         sceneId = 2;
         layout = new BorderPane();
-        scene = new Scene(this.layout, Intuition.MINWIDTH, Intuition.MINHEIGHT);
+        scene = new Scene(this.layout, Intuition.Config.getMINWIDTH(), Intuition.Config.getMINHEIGHT());
         scene.setFill(Paint.valueOf("#202936"));
         layout.setStyle("-fx-background-color: #202936");
         this.stage = stage;

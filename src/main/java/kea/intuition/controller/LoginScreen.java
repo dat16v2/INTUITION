@@ -16,6 +16,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import kea.intuition.Intuition;
+import kea.intuition.IntuitionLoginEvent;
 import kea.intuition.Tools;
 
 public class LoginScreen extends IScene{
@@ -24,7 +25,7 @@ public class LoginScreen extends IScene{
     {
         layout = new BorderPane();
         Intuition.setIsLoggedIn(false);
-        scene = new Scene(layout, Intuition.MINWIDTH, Intuition.MINHEIGHT);
+        scene = new Scene(layout, Intuition.Config.getMINWIDTH(), Intuition.Config.getMINHEIGHT());
         layout.setStyle("-fx-background-color: #202936");
         this.stage = stage;
 
@@ -131,10 +132,7 @@ public class LoginScreen extends IScene{
     }
 
     private void login() {
-        System.out.println("Check login info. If authenticated, proceed to main logged in screen");
-        Intuition.setIsLoggedIn(true);
-        Intuition.indexScreen = new IndexScreen(stage);
-        Intuition.eventScreen = new EventScreen(stage);
-        stage.setScene(Intuition.indexScreen.getScene());
+        // Fire custom login event
+        IntuitionLoginEvent.fireEvent(stage, new IntuitionLoginEvent(null, null, IntuitionLoginEvent.LOGIN_EVENT));
     }
 }
