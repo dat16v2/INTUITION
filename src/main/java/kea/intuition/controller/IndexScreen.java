@@ -15,8 +15,8 @@ public class IndexScreen extends IScene {
     public IndexScreen(Stage stage) {
         sceneId = 1;
         layout = new BorderPane();
-        layout.setBackground(new Background(new BackgroundFill(Paint.valueOf("#202936"), CornerRadii.EMPTY, Insets.EMPTY)));
-        scene = new Scene(this.layout, Intuition.Config.getMINWIDTH(), Intuition.Config.getMINHEIGHT(), Paint.valueOf("#202936"));
+        layout.setBackground(new Background(new BackgroundFill(Paint.valueOf("#252f3e"), CornerRadii.EMPTY, Insets.EMPTY)));
+        scene = new Scene(this.layout, Intuition.Config.getMINWIDTH(), Intuition.Config.getMINHEIGHT(), Paint.valueOf("#252f3e"));
         scene.setFill(Paint.valueOf("#202936"));
         layout.setStyle("-fx-background-color: #202936");
         this.stage = stage;
