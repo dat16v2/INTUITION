@@ -13,7 +13,10 @@
   .table-view .filler {
     -fx-background-color: #252f3e; }
   .table-view .table-cell {
-    -fx-text-fill: #ffffff; }
+    -fx-text-fill: #ffffff;
+    -fx-border-color: transparent;
+    -fx-border-style: none;
+    -fx-padding: 4 0 4 0; }
 
 .table-row-cell {
   -fx-background-color: -fx-table-cell-border-color, #252f3e;
@@ -26,5 +29,8 @@
   -fx-background-insets: 0 0 0 0;
   -fx-padding: 0px;
   -fx-font-size: 14px; }
+
+.table-row-cell:selected {
+  -fx-background-color: #2f3d50; }
 
 /*# sourceMappingURL=companies_table_compiled.css.map */

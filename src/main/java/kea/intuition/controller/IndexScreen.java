@@ -1,5 +1,7 @@
 package kea.intuition.controller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -17,6 +19,7 @@ import kea.intuition.model.Company;
 
 // ID: 1
 public class IndexScreen extends IScene {
+    int currentCompanySelection = 0;
 
     public IndexScreen(Stage stage) {
         sceneId = 1;
@@ -38,14 +41,33 @@ public class IndexScreen extends IScene {
         authorizedText.setStyle("-fx-text-fill: #ffffff");
 
         TableView companiesTable = getCompaniesTable();
+        Pane companyDisplay = getCompanyDisplay((Company) companiesTable.getItems().get(0));
 
         bodyPane.getChildren().add(authorizedText);
 
         layout.setLeft(companiesTable);
+        layout.setCenter(companyDisplay);
 
         Tools.addDragToScene(layout, this);
         final ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         scene.getStylesheets().add(contextClassLoader.getResource("css/companies_table_compiled.css").toExternalForm());
+    }
+
+    private Pane getCompanyDisplay(Company company) {
+        VBox layout = new VBox(0);
+        VBox paddingTopContent = new VBox(0);
+        paddingTopContent.setStyle("-fx-background-color: #252f3e; -fx-padding: 18 0 0 0; -fx-background-insets: 0 0 0 0; -fx-min-height: 10px;");
+
+        VBox content = new VBox(10);
+        layout.setStyle("-fx-background-color: #2f3d50; -fx-padding: 0 0 0 0; -fx-background-insets: 0 0 0 0;");
+
+        Label label = new Label(company.getName());
+        label.setStyle("-fx-text-fill: #ffffff");
+
+        content.getChildren().addAll(label);
+        layout.getChildren().addAll(paddingTopContent, content);
+
+        return layout;
     }
 
     private TableView getCompaniesTable() {
@@ -77,6 +99,20 @@ public class IndexScreen extends IScene {
 
         companiesTable.setItems(data);
 
+        companiesTable.getSelectionModel().selectFirst();
+
+        companiesTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Company>() {
+            @Override
+            public void changed(ObservableValue observable, Company oldValue, Company newValue) {
+                System.out.printf("Old: %s, new: %s\n", oldValue.getName(), newValue.getName());
+                currentCompanySelection = (newValue.getId() - 1);
+                Pane companyDisplay = getCompanyDisplay(newValue);
+                layout.setCenter(companyDisplay);
+            }
+        });
+
         return companiesTable;
     }
+
+
 }
