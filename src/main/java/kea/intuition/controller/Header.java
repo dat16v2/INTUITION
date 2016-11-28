@@ -164,7 +164,7 @@ public class Header {
             HBox menuBarPane = new HBox(0);
             menuBarPane.setPadding(new Insets(0, 0, 0, 0));
 
-            addLabel("Companies", 1, menuBarPane, scene);
+            addLabel("Company", 1, menuBarPane, scene);
 
             addLabel("Events", 2, menuBarPane, scene);
 

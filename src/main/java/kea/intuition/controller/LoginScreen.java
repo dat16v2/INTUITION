@@ -54,7 +54,7 @@ public class LoginScreen extends IScene{
         usernameInput.setMinHeight(30);
         usernameInput.setAlignment(Pos.CENTER);
         usernameInput.setPromptText("Username");
-        usernameInput.setStyle("-fx-background-color: #232d3b; -fx-text-fill: #3e4f66");
+        usernameInput.setStyle("-fx-background-color: #232d3b; -fx-text-fill: #fffbff");
 
         usernameInput.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override

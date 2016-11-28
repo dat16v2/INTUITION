@@ -1,0 +1,30 @@
+.table-view {
+  -fx-background-color: #252f3e; }
+  .table-view .column-header-background .label {
+    -fx-text-fill: #ffffff;
+    -fx-background-color: transparent;
+    -fx-font-size: 15px;
+    -fx-font-family: 'Open Sans Semibold';
+    -fx-font-weight: 600; }
+  .table-view .column-header-background {
+    -fx-background-color: #252f3e; }
+  .table-view .column-header {
+    -fx-background-color: transparent; }
+  .table-view .filler {
+    -fx-background-color: #252f3e; }
+  .table-view .table-cell {
+    -fx-text-fill: #ffffff; }
+
+.table-row-cell {
+  -fx-background-color: -fx-table-cell-border-color, #252f3e;
+  -fx-background-insets: 0 0 0 0;
+  -fx-padding: 0px;
+  -fx-font-size: 14px; }
+
+.table-row-cell:odd {
+  -fx-background-color: -fx-table-cell-border-color, #232d3b;
+  -fx-background-insets: 0 0 0 0;
+  -fx-padding: 0px;
+  -fx-font-size: 14px; }
+
+/*# sourceMappingURL=companies_table_compiled.css.map */
