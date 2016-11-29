@@ -42,19 +42,16 @@ public class LoginScreen extends IScene{
         Image logo = new Image("/intuition_logo.png");
         ImageView logoView = new ImageView();
         logoView.setImage(logo);
-        logoView.setFitWidth(484);
-        logoView.setFitHeight(94);
+        logoView.setId("logo");
 
         logoPane.getChildren().add(logoView);
         center.getChildren().add(logoPane);
 
         // INPUT TO LOGIN
         TextField usernameInput = new TextField();
-        usernameInput.setMaxWidth(250);
-        usernameInput.setMinHeight(30);
         usernameInput.setAlignment(Pos.CENTER);
         usernameInput.setPromptText("Username");
-        usernameInput.setStyle("-fx-background-color: #232d3b; -fx-text-fill: #fffbff");
+        usernameInput.getStyleClass().add("input-field");
 
         usernameInput.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
@@ -66,11 +63,9 @@ public class LoginScreen extends IScene{
         });
 
         TextField passwordInput = new TextField();
-        passwordInput.setMaxWidth(250);
-        passwordInput.setMinHeight(30);
         passwordInput.setAlignment(Pos.CENTER);
         passwordInput.setPromptText("Password");
-        passwordInput.setStyle("-fx-background-color: #232d3b; -fx-text-fill: #3e4f66");
+        passwordInput.getStyleClass().add("input-field");
 
         passwordInput.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
@@ -83,33 +78,33 @@ public class LoginScreen extends IScene{
 
         Button loginButton = new Button();
         loginButton.setText("Login");
-        loginButton.setStyle("-fx-background-color: #2d3a4c; -fx-text-fill: #ffffff");
+        loginButton.setId("login-button");
 
         loginButton.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                loginButton.setStyle("-fx-background-color: #3b4e66; -fx-text-fill: #ffffff");
+                loginButton.setId("login-button-entered");
             }
         });
 
         loginButton.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                loginButton.setStyle("-fx-background-color: #1e2632; -fx-text-fill: #ffffff");
+                loginButton.setId("login-button-pressed");
             }
         });
 
         loginButton.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                loginButton.setStyle("-fx-background-color: #3b4e66; -fx-text-fill: #ffffff");
+                loginButton.setId("login-button-released");
             }
         });
 
         loginButton.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                loginButton.setStyle("-fx-background-color: #2d3a4c; -fx-text-fill: #ffffff");
+                loginButton.setId("login-button-exited");
             }
         });
 
@@ -130,6 +125,9 @@ public class LoginScreen extends IScene{
 
         // Add ability to drag window without any platform decoration.
         Tools.addDragToScene(layout, this);
+
+        final ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+        scene.getStylesheets().add(contextClassLoader.getResource("css/login_screen.css").toExternalForm());
     }
 
     private void login() {

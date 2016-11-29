@@ -1,5 +1,7 @@
 package kea.intuition.controller;
 
+import com.sun.javafx.scene.text.TextLayout;
+import com.sun.javafx.tk.Toolkit;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -9,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
@@ -35,39 +38,70 @@ public class IndexScreen extends IScene {
         // Body
 
         Pane bodyPane = new StackPane();
-        bodyPane.setStyle("-fx-background-color: #252f3e");
+        bodyPane.setId("body");
 
-        Label authorizedText = new Label("Authorized.");
-        authorizedText.setStyle("-fx-text-fill: #ffffff");
 
         TableView companiesTable = getCompaniesTable();
         Pane companyDisplay = getCompanyDisplay((Company) companiesTable.getItems().get(0));
-
-        bodyPane.getChildren().add(authorizedText);
 
         layout.setLeft(companiesTable);
         layout.setCenter(companyDisplay);
 
         Tools.addDragToScene(layout, this);
         final ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
-        scene.getStylesheets().add(contextClassLoader.getResource("css/companies_table_compiled.css").toExternalForm());
+        scene.getStylesheets().add(contextClassLoader.getResource("css/index_screen.css").toExternalForm());
     }
 
     private Pane getCompanyDisplay(Company company) {
         VBox layout = new VBox(0);
-        VBox paddingTopContent = new VBox(0);
-        paddingTopContent.setStyle("-fx-background-color: #252f3e; -fx-padding: 18 0 0 0; -fx-background-insets: 0 0 0 0; -fx-min-height: 10px;");
-
-        VBox content = new VBox(10);
+        layout.getStyleClass().add("company-display");
         layout.setStyle("-fx-background-color: #2f3d50; -fx-padding: 0 0 0 0; -fx-background-insets: 0 0 0 0;");
 
-        Label label = new Label(company.getName());
-        label.setStyle("-fx-text-fill: #ffffff");
+        VBox paddingTopContent = new VBox(0);
+        paddingTopContent.setId("padding-head");
 
-        content.getChildren().addAll(label);
+        // Body of display
+        VBox content = new VBox(10);
+
+        // Company name
+        Label companyNameLabel = new Label(company.getName());
+        companyNameLabel.setId("label-title");
+
+        // Phone number
+        HBox companyPhoneNumberPane = new HBox(5);
+        companyPhoneNumberPane.setId("phone-number-box");
+        //companyPhoneNumberPane.setStyle("-fx-text-fill: #ffffff; -fx-font-family: 'Open Sans'; -fx-font-weight: 300; -fx-padding: 5 0 0 35; -fx-font-size: 15px;");
+
+        Label companyPhoneNumberPrefixLabel = new Label(String.format("+%s%s", company.getPhoneNumberPrefix(), company.getPhoneNumberCountryCallingCode()));
+        companyPhoneNumberPrefixLabel.getStyleClass().add("text-label");
+
+        Label companyPhoneNumberLabel = new Label(company.getPhoneNumber());
+        companyPhoneNumberLabel.getStyleClass().add("text-label");
+
+        companyPhoneNumberPane.getChildren().addAll(companyPhoneNumberPrefixLabel,companyPhoneNumberLabel);
+
+        // Email
+
+        content.getChildren().addAll(companyNameLabel, companyPhoneNumberPane);
         layout.getChildren().addAll(paddingTopContent, content);
 
         return layout;
+    }
+
+    private void setTextFieldWidthProperly(TextField value) {
+        value.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                /*
+                TextLayout layout = Toolkit.getToolkit().getTextLayoutFactory().createLayout();
+                layout.setContent(value.getText() != null ? value.getText() : "", value.getFont().impl_getNativeFont());
+                layout.setWrapWidth((float)0.0D);
+
+                value.setPrefWidth(layout.getBounds().getWidth());
+                */
+                value.setPrefColumnCount(value.getText().length() + 1);
+            }
+        });
     }
 
     private TableView getCompaniesTable() {
@@ -91,10 +125,14 @@ public class IndexScreen extends IScene {
 
         // test data
         ObservableList<Company> data = FXCollections.observableArrayList(
-                new Company(1, "Phuong Quan Inc.", 4.01),
-                new Company(2, "Asam Ali Corporation", 99.9),
-                new Company(3, "Konstantyner", 99.99),
-                new Company(4, "Emil H. Clausen Freelance", 99.9)
+                new Company(1, "Phuong Quan Inc.", 4.01, "00", "45", "20978633"),
+                new Company(2, "Asam Ali Corporation", 99.9, "-1", "1", "543534"),
+                new Company(3, "Konstantyner", 99.99, "0011", "1", "2543123"),
+                new Company(4, "Emil H. Clausen Freelance", 99.9, "-1", "45", "01234567"),
+                new Company(5, "kek", 4.01, "-1", "1", "0"),
+                new Company(6, "demo 00", 99.9, "-1", "1", "0"),
+                new Company(7, "demo 01", 99.99, "-1", "1", "0"),
+                new Company(8, "demo 02", 99.9, "-1", "1", "0")
         );
 
         companiesTable.setItems(data);
@@ -104,7 +142,6 @@ public class IndexScreen extends IScene {
         companiesTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Company>() {
             @Override
             public void changed(ObservableValue observable, Company oldValue, Company newValue) {
-                System.out.printf("Old: %s, new: %s\n", oldValue.getName(), newValue.getName());
                 currentCompanySelection = (newValue.getId() - 1);
                 Pane companyDisplay = getCompanyDisplay(newValue);
                 layout.setCenter(companyDisplay);

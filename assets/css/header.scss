@@ -1,0 +1,85 @@
+#control-button {
+  -fx-padding: 20 0 0 10;
+}
+
+#logo-view {
+  -fx-fit-to-width: 180px;
+  -fx-fit-to-height: 35px;
+}
+
+#logo-pane {
+  -fx-padding: 8 0 0 7;
+}
+
+.sep-view {
+  -fx-fit-to-width: 3px;
+  -fx-fit-to-height: 24px;
+}
+
+.sep-pane {
+  -fx-padding: 7 10 0 5;
+}
+
+.menu-button {
+  -fx-text-fill: #858c97;
+  -fx-font-size: 23px;
+  -fx-font-family: 'Open Sans Semibold';
+  -fx-font-weight: 600;
+  -fx-padding: 9 5 7 5;
+  -fx-background-color: transparent;
+}
+
+.menu-button-active {
+  -fx-text-fill: #b182e9;
+  -fx-font-size: 23px;
+  -fx-font-family: 'Open Sans Semibold';
+  -fx-font-weight: 600;
+  -fx-background-color: #252f3e;
+  -fx-padding: 9 5 7 5;
+}
+
+.menu-button-entered {
+  -fx-text-fill: #b182e9;
+  -fx-font-size: 23px;
+  -fx-font-family: 'Open Sans Semibold';
+  -fx-font-weight: 600;
+  -fx-background-color: #252f3e;
+  -fx-padding: 9 5 7 5;
+}
+
+.menu-button-pressed {
+  -fx-text-fill: #9c73ce;
+  -fx-font-size: 23px;
+  -fx-font-family: 'Open Sans Semibold';
+  -fx-font-weight: 600;
+  -fx-background-color: #202735;
+  -fx-padding: 9 5 7 5;
+}
+
+.menu-button-released {
+  -fx-text-fill: #b182e9;
+  -fx-font-size: 23px;
+  -fx-font-family: 'Open Sans Semibold';
+  -fx-font-weight: 600;
+  -fx-background-color: #252f3e;
+  -fx-padding: 9 5 7 5;
+}
+
+.menu-button-exited {
+  -fx-text-fill: #858c97;
+  -fx-font-size: 23px;
+  -fx-font-family: 'Open Sans Semibold';
+  -fx-font-weight: 600;
+  -fx-padding: 9 5 7 5;
+}
+
+.window-button {
+  -fx-fit-to-width: 13px;
+  -fx-fit-to-height: 12px;
+}
+
+.window-button-hover {
+  -fx-fit-to-width: 13px;
+  -fx-fit-to-height: 12px;
+  -fx-opacity: 50%;
+}

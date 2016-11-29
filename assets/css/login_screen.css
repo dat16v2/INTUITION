@@ -1,0 +1,31 @@
+#logo {
+  -fx-fit-to-width: 484px;
+  -fx-fit-to-height: 94px; }
+
+#login-button {
+  -fx-background-color: #2d3a4c;
+  -fx-text-fill: #ffffff; }
+
+#login-button-entered {
+  -fx-background-color: #3b4e66;
+  -fx-text-fill: #ffffff; }
+
+#login-button-pressed {
+  -fx-background-color: #1e2632;
+  -fx-text-fill: #ffffff; }
+
+#login-button-released {
+  -fx-background-color: #3b4e66;
+  -fx-text-fill: #ffffff; }
+
+#login-button-exited {
+  -fx-background-color: #2d3a4c;
+  -fx-text-fill: #ffffff; }
+
+.input-field {
+  -fx-background-color: #232d3b;
+  -fx-text-fill: #fffbff;
+  -fx-max-width: 250px;
+  -fx-max-height: 30px; }
+
+/*# sourceMappingURL=login_screen.css.map */

@@ -1,0 +1,47 @@
+@import 'companies_table.scss';
+
+#body {
+  -fx-background-color: #252f3e;
+}
+
+.company-display {
+  #root-display {
+    -fx-background-color: #2f3d50;
+    -fx-padding: 0 0 0 0;
+    -fx-background-insets: 0 0 0 0;
+  }
+
+  #padding-head {
+    -fx-background-color: #252f3e;
+    -fx-padding: 18 0 0 0;
+    -fx-background-insets: 0 0 0 0;
+    -fx-min-height: 10px;
+  }
+
+  #label-title {
+    -fx-text-fill: #ffffff;
+    -fx-background-color: transparent;
+    -fx-font-family: 'Open Sans Semibold';
+    -fx-font-weight: 600;
+    -fx-padding: 30 0 0 35;
+    -fx-font-size: 18px;
+  }
+
+  #phone-number-box {
+    -fx-text-fill: #ffffff;
+    -fx-font-family: 'Open Sans';
+    -fx-font-weight: 300;
+    -fx-padding: 5 0 0 35;
+    -fx-font-size: 15px;
+  }
+
+  .text-label {
+    -fx-text-fill: #ffffff;
+    -fx-padding: 0 0 0 0;
+    -fx-background-insets: 0 0 0 0;
+    -fx-background-color: transparent;
+    -fx-font-family: 'Open Sans';
+    -fx-font-weight: 300;
+    -fx-font-size: 15px;
+  }
+}

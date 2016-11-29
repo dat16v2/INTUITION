@@ -23,20 +23,21 @@ public class Header {
         Image close = new Image("/close.png");
         ImageView closeView = new ImageView();
         closeView.setImage(close);
-        closeView.setFitWidth(13);
-        closeView.setFitHeight(12);
+        closeView.getStyleClass().add("window-button");
 
         closeView.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                closeView.setStyle("-fx-opacity: 50%");
+                closeView.getStyleClass().clear();
+                closeView.getStyleClass().add("window-button-hover");
             }
         });
 
         closeView.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                closeView.setStyle("-fx-opacity: 100%");
+                closeView.getStyleClass().clear();
+                closeView.getStyleClass().add("window-button");
             }
         });
 
@@ -50,20 +51,21 @@ public class Header {
         Image minimize = new Image("/minimize.png");
         ImageView minimizeView = new ImageView();
         minimizeView.setImage(minimize);
-        minimizeView.setFitWidth(13);
-        minimizeView.setFitHeight(12);
+        minimizeView.getStyleClass().add("window-button");
 
         minimizeView.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                minimizeView.setStyle("-fx-opacity: 50%");
+                minimizeView.getStyleClass().clear();
+                minimizeView.getStyleClass().add("window-button-hover");
             }
         });
 
         minimizeView.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                minimizeView.setStyle("-fx-opacity: 100%");
+                minimizeView.getStyleClass().clear();
+                minimizeView.getStyleClass().add("window-button");
             }
         });
 
@@ -77,20 +79,21 @@ public class Header {
         Image maximize = new Image("/maximize.png");
         ImageView maximizeView = new ImageView();
         maximizeView.setImage(maximize);
-        maximizeView.setFitWidth(13);
-        maximizeView.setFitHeight(12);
+        maximizeView.getStyleClass().add("window-button");
 
         maximizeView.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                maximizeView.setStyle("-fx-opacity: 50%");
+                maximizeView.getStyleClass().clear();
+                maximizeView.getStyleClass().add("window-button-hover");
             }
         });
 
         maximizeView.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                maximizeView.setStyle("-fx-opacity: 100%");
+                maximizeView.getStyleClass().clear();
+                maximizeView.getStyleClass().add("window-button");
             }
         });
 
@@ -131,7 +134,7 @@ public class Header {
         });
 
         controlButtons.getChildren().addAll(closeView, minimizeView, maximizeView);
-        controlButtons.setPadding(new Insets(20, 0, 0, 10));
+        controlButtons.setId("control-button");
         header.getChildren().add(controlButtons);
 
         if (Intuition.isLoggedIn()) {
@@ -140,22 +143,20 @@ public class Header {
             ImageView logoView = new ImageView();
             HBox logoPane = new HBox(1);
             logoView.setImage(logo);
-            logoView.setFitWidth(180);
-            logoView.setFitHeight(35);
+            logoView.setId("logo-view");
             logoPane.getChildren().add(logoView);
 
-            logoPane.setPadding(new Insets(8, 0, 0, 7));
+            logoPane.setId("logo-pane");
 
             // Separator between logo and menu
             Image sep = new Image("/header_sep.png");
             ImageView sepView = new ImageView();
             HBox sepPane = new HBox(1);
             sepView.setImage(sep);
-            sepView.setFitWidth(3);
-            sepView.setFitHeight(24);
+            sepView.getStyleClass().add("sep-view");
             sepPane.getChildren().add(sepView);
 
-            sepPane.setPadding(new Insets(13, 10, 0, 5));
+            sepPane.getStyleClass().add("sep-pane");
 
             header.getChildren().addAll(logoPane, sepPane);
 
@@ -173,6 +174,9 @@ public class Header {
             header.getChildren().add(menuBarPane);
         }
 
+        final ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+        header.getStylesheets().add(contextClassLoader.getResource("css/header.css").toExternalForm());
+
         return header;
     }
 
@@ -181,34 +185,40 @@ public class Header {
         label.setText(labelText);
 
         if (scene.sceneId == sceneId) {
-            label.setStyle("-fx-text-fill: #b182e9; -fx-font-size: 23px; -fx-font-family: 'Open Sans Semibold'; -fx-font-weight: 600; -fx-background-color: #252f3e; -fx-padding: 9 5 7 5;");
+            label.getStyleClass().clear();
+            label.getStyleClass().add("menu-button-active");
         } else {
-            label.setStyle("-fx-text-fill: #858c97; -fx-font-size: 23px; -fx-font-family: 'Open Sans Semibold'; -fx-font-weight: 600; -fx-padding: 9 5 7 5;");
+            label.getStyleClass().clear();
+            label.getStyleClass().add("menu-button");
             label.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    label.setStyle("-fx-text-fill: #b182e9; -fx-font-size: 23px; -fx-font-family: 'Open Sans Semibold'; -fx-font-weight: 600; -fx-background-color: #252f3e; -fx-padding: 9 5 7 5;");
+                    label.getStyleClass().clear();
+                    label.getStyleClass().add("menu-button-entered");
                 }
             });
 
             label.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    label.setStyle("-fx-text-fill: #9c73ce; -fx-font-size: 23px; -fx-font-family: 'Open Sans Semibold'; -fx-font-weight: 600; -fx-background-color: #202735; -fx-padding: 9 5 7 5;");
+                    label.getStyleClass().clear();
+                    label.getStyleClass().add("menu-button-pressed");
                 }
             });
 
             label.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    label.setStyle("-fx-text-fill: #b182e9; -fx-font-size: 23px; -fx-font-family: 'Open Sans Semibold'; -fx-font-weight: 600; -fx-background-color: #252f3e; -fx-padding: 9 5 7 5;");
+                    label.getStyleClass().clear();
+                    label.getStyleClass().add("menu-button-released");
                 }
             });
 
             label.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    label.setStyle("-fx-text-fill: #858c97; -fx-font-size: 23px; -fx-font-family: 'Open Sans Semibold'; -fx-font-weight: 600; -fx-padding: 9 5 7 5;");
+                    label.getStyleClass().clear();
+                    label.getStyleClass().add("menu-button-exited");
                 }
             });
 
