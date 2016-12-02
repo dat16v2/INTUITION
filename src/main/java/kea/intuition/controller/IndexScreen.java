@@ -1,11 +1,12 @@
 package kea.intuition.controller;
 
-import com.sun.javafx.scene.text.TextLayout;
-import com.sun.javafx.tk.Toolkit;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -13,16 +14,22 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import kea.intuition.Intuition;
 import kea.intuition.Tools;
+import kea.intuition.data.Lock;
 import kea.intuition.model.Company;
+
+import java.util.function.Predicate;
 
 // ID: 1
 public class IndexScreen extends IScene {
-    int currentCompanySelection = 0;
+    private int currentCompanySelection = 0;
+    private ObservableList<Company> data;
+    private TableView companiesTable;
 
     public IndexScreen(Stage stage) {
         sceneId = 1;
@@ -40,11 +47,67 @@ public class IndexScreen extends IScene {
         Pane bodyPane = new StackPane();
         bodyPane.setId("body");
 
-
-        TableView companiesTable = getCompaniesTable();
+        companiesTable = getCompaniesTable();
         Pane companyDisplay = getCompanyDisplay((Company) companiesTable.getItems().get(0));
+        VBox companiesTablePane = new VBox(0);
+        companiesTablePane.setVgrow(companiesTable, Priority.ALWAYS);
 
-        layout.setLeft(companiesTable);
+        TextField searchField = new TextField();
+        Pane seachFieldPane = new StackPane();
+        seachFieldPane.setId("search-field");
+        searchField.getStyleClass().add("input-field");
+
+        FilteredList<Company> filteredList = new FilteredList<Company>(data, new Predicate<Company>() {
+            @Override
+            public boolean test(Company company) {
+                return true;
+            }
+        });
+
+        searchField.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<javafx.scene.input.KeyEvent>() {
+            @Override
+            public void handle(javafx.scene.input.KeyEvent event) {
+                    filteredList.setPredicate(new Predicate<Company>() {
+                        @Override
+                        public boolean test(Company company) {
+                            if (searchField.getText().isEmpty() || searchField.getText() == null) {
+                                return true;
+                            }
+
+                            String lowerCasedSearch = searchField.getText().toLowerCase();
+
+                            if (lowerCasedSearch.contains("id:")) {
+                                String id = "";
+                                for (int i = 3; i < lowerCasedSearch.length(); i++) {
+                                    id = id + lowerCasedSearch.charAt(i);
+                                }
+
+                                if (Integer.toString(company.getId()).equals(id)) {
+                                    return true;
+                                }
+                            }
+
+                            if (company.getName().toLowerCase().contains(lowerCasedSearch)) {
+                                return true;
+                            }
+
+                            return false;
+                        }
+                    });
+
+                    companiesTable.getSelectionModel().selectFirst();
+            }
+        });
+
+        SortedList<Company> sortedData = new SortedList<Company>(filteredList);
+
+        sortedData.comparatorProperty().bind(companiesTable.comparatorProperty());
+        companiesTable.setItems(sortedData);
+
+        seachFieldPane.getChildren().add(searchField);
+        companiesTablePane.getChildren().addAll(seachFieldPane, companiesTable);
+
+        layout.setLeft(companiesTablePane);
         layout.setCenter(companyDisplay);
 
         Tools.addDragToScene(layout, this);
@@ -60,30 +123,47 @@ public class IndexScreen extends IScene {
         VBox paddingTopContent = new VBox(0);
         paddingTopContent.setId("padding-head");
 
+        BorderPane lockPane = new BorderPane();
+        Lock lock = new Lock();
+        lock.getLabel().setId("lock");
+
+        lockPane.setRight(lock.getLabel());
+
         // Body of display
-        VBox content = new VBox(10);
+        VBox content = new VBox(2);
 
-        // Company name
-        Label companyNameLabel = new Label(company.getName());
-        companyNameLabel.setId("label-title");
+        if (company != null) {
+            // Company name
+            Label companyNameLabel = new Label(company.getName());
+            companyNameLabel.setId("label-title");
 
-        // Phone number
-        HBox companyPhoneNumberPane = new HBox(5);
-        companyPhoneNumberPane.setId("phone-number-box");
-        //companyPhoneNumberPane.setStyle("-fx-text-fill: #ffffff; -fx-font-family: 'Open Sans'; -fx-font-weight: 300; -fx-padding: 5 0 0 35; -fx-font-size: 15px;");
+            // Phone number
+            HBox companyPhoneNumberPane = new HBox(5);
+            companyPhoneNumberPane.setId("phone-number-box");
+            //companyPhoneNumberPane.setStyle("-fx-text-fill: #ffffff; -fx-font-family: 'Open Sans'; -fx-font-weight: 300; -fx-padding: 5 0 0 35; -fx-font-size: 15px;");
 
-        Label companyPhoneNumberPrefixLabel = new Label(String.format("+%s%s", company.getPhoneNumberPrefix(), company.getPhoneNumberCountryCallingCode()));
-        companyPhoneNumberPrefixLabel.getStyleClass().add("text-label");
+            Label companyPhoneNumberPrefixLabel = new Label(String.format("+%s%s", company.getPhoneNumberPrefix(), company.getPhoneNumberCountryCallingCode()));
+            companyPhoneNumberPrefixLabel.getStyleClass().add("text-label");
 
-        Label companyPhoneNumberLabel = new Label(company.getPhoneNumber());
-        companyPhoneNumberLabel.getStyleClass().add("text-label");
+            Label companyPhoneNumberLabel = new Label(company.getPhoneNumber());
+            companyPhoneNumberLabel.getStyleClass().add("text-label");
 
-        companyPhoneNumberPane.getChildren().addAll(companyPhoneNumberPrefixLabel,companyPhoneNumberLabel);
+            companyPhoneNumberPane.getChildren().addAll(companyPhoneNumberPrefixLabel,companyPhoneNumberLabel);
 
-        // Email
+            // Email
 
-        content.getChildren().addAll(companyNameLabel, companyPhoneNumberPane);
-        layout.getChildren().addAll(paddingTopContent, content);
+            Label companyEmailLabel = new Label(company.getEmail());
+            FlowPane companyEmailPane = new FlowPane();
+            companyEmailPane.getStyleClass().add("label-box");
+            companyEmailLabel.getStyleClass().add("text-label");
+
+            companyEmailPane.getChildren().add(companyEmailLabel);
+
+
+            content.getChildren().addAll(companyNameLabel, companyPhoneNumberPane, companyEmailPane);
+        }
+
+        layout.getChildren().addAll(paddingTopContent, lockPane, content);
 
         return layout;
     }
@@ -118,21 +198,27 @@ public class IndexScreen extends IScene {
 
         companiesTable.getColumns().addAll(companyId, companyName, companyScore);
 
-        companiesTable.setStyle("-fx-padding: 13 0 10 19; -fx-min-width: 400px;");
+        companiesTable.setStyle("-fx-padding: 7 0 0 19; -fx-min-width: 400px;");
         //companiesTable.setMaxWidth(600);
         //companiesTable.setMinWidth(400);
         //companiesTable.getStyleClass().add("companyTable");
 
         // test data
-        ObservableList<Company> data = FXCollections.observableArrayList(
-                new Company(1, "Phuong Quan Inc.", 4.01, "00", "45", "20978633"),
-                new Company(2, "Asam Ali Corporation", 99.9, "-1", "1", "543534"),
-                new Company(3, "Konstantyner", 99.99, "0011", "1", "2543123"),
-                new Company(4, "Emil H. Clausen Freelance", 99.9, "-1", "45", "01234567"),
-                new Company(5, "kek", 4.01, "-1", "1", "0"),
-                new Company(6, "demo 00", 99.9, "-1", "1", "0"),
-                new Company(7, "demo 01", 99.99, "-1", "1", "0"),
-                new Company(8, "demo 02", 99.9, "-1", "1", "0")
+        data = FXCollections.observableArrayList(
+                new Company(1, "Phuong Quan Inc.", "phuong@phuongcorp.com",4.01, "00", "45", "20978633"),
+                new Company(2, "Asam Ali Corporation", "asam@ali.io",99.9, "-1", "1", "543534"),
+                new Company(3, "Konstantyner", "ssksi@konstaaaa.dk",99.99, "0011", "1", "2543123"),
+                new Company(4, "Emil H. Clausen Freelance", "kekekeke@ggg.kk",99.9, "-1", "45", "01234567"),
+                new Company(5, "kek", "example@example.example",4.01, "-1", "1", "0"),
+                new Company(6, "demo 00", "example@example.example",99.9, "-1", "1", "0"),
+                new Company(7, "demo 01", "example@example.example",99.99, "-1", "1", "0"),
+                new Company(8, "demo 02", "example@example.example",99.9, "-1", "1", "0"),
+                new Company(5, "kek", "example@example.example",4.01, "-1", "1", "0"),
+                new Company(6, "demo 00", "example@example.example",99.9, "-1", "1", "0"),
+                new Company(7, "demo 01", "example@example.example",99.99, "-1", "1", "0"),
+                new Company(5, "kek", "example@example.example",4.01, "-1", "1", "0"),
+                new Company(6, "demo 00", "example@example.example",99.9, "-1", "1", "0"),
+                new Company(7, "demo 01", "example@example.example",99.99, "-1", "1", "0")
         );
 
         companiesTable.setItems(data);
@@ -142,7 +228,12 @@ public class IndexScreen extends IScene {
         companiesTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Company>() {
             @Override
             public void changed(ObservableValue observable, Company oldValue, Company newValue) {
-                currentCompanySelection = (newValue.getId() - 1);
+                if (newValue == null) {
+                    currentCompanySelection = (0);
+                } else {
+                    currentCompanySelection = (newValue.getId() - 1);
+                }
+
                 Pane companyDisplay = getCompanyDisplay(newValue);
                 layout.setCenter(companyDisplay);
             }

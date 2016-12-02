@@ -2,6 +2,7 @@ $primary-bg-color: #252f3e;
 
 .table-view {
   -fx-background-color: $primary-bg-color;
+  //-fx-min-height: 415px;
   .column-header-background .label {
     -fx-text-fill: #ffffff;
     -fx-background-color: transparent;

@@ -60,9 +60,10 @@ public class Company {
 
     }
 
-    public Company(int id, String name, double score, String phoneNumberPrefix, String phoneNumberCountryCallingCode, String phoneNumber) {
+    public Company(int id, String name, String email, double score, String phoneNumberPrefix, String phoneNumberCountryCallingCode, String phoneNumber) {
         this.id = id;
         this.name = name;
+        this.email = email;
         this.score = score;
         if (phoneNumberPrefix.equals("-1")) {
             this.phoneNumberPrefix = "00";
