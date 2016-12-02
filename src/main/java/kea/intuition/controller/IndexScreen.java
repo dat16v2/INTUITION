@@ -48,7 +48,8 @@ public class IndexScreen extends IScene {
         bodyPane.setId("body");
 
         companiesTable = getCompaniesTable();
-        Pane companyDisplay = getCompanyDisplay((Company) companiesTable.getItems().get(0));
+        CompanySingularDisplay companySingularDisplay = new CompanySingularDisplay((Company) companiesTable.getItems().get(0));
+        Pane companyDisplay = companySingularDisplay.getCompanyDisplay();
         VBox companiesTablePane = new VBox(0);
         companiesTablePane.setVgrow(companiesTable, Priority.ALWAYS);
 
@@ -124,10 +125,10 @@ public class IndexScreen extends IScene {
         paddingTopContent.setId("padding-head");
 
         BorderPane lockPane = new BorderPane();
-        Lock lock = new Lock();
-        lock.getLabel().setId("lock");
+        //Lock lock = new Lock();
+        //lock.getLabel().setId("lock");
 
-        lockPane.setRight(lock.getLabel());
+        //lockPane.setRight(lock.getLabel());
 
         // Body of display
         VBox content = new VBox(2);
@@ -234,7 +235,8 @@ public class IndexScreen extends IScene {
                     currentCompanySelection = (newValue.getId() - 1);
                 }
 
-                Pane companyDisplay = getCompanyDisplay(newValue);
+                CompanySingularDisplay companySingularDisplay = new CompanySingularDisplay(newValue);
+                Pane companyDisplay = companySingularDisplay.getCompanyDisplay();
                 layout.setCenter(companyDisplay);
             }
         });

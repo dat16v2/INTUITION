@@ -3,10 +3,12 @@ package kea.intuition.data;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import kea.intuition.controller.CompanySingularDisplay;
 
 public class Lock {
     private boolean locked;
     private Label label;
+    private CompanySingularDisplay companySingularDisplay;
 
     public boolean isLocked() {
         return locked;
@@ -22,8 +24,9 @@ public class Lock {
         }
     }
 
-    public Lock() {
+    public Lock(CompanySingularDisplay companySingularDisplay) {
         this.label = new Label();
+        this.companySingularDisplay = companySingularDisplay;
         setLocked(true);
 
         setOnClick();
@@ -35,8 +38,10 @@ public class Lock {
             public void handle(MouseEvent event) {
                 if (isLocked()) {
                     setLocked(false);
+                    companySingularDisplay.setUnlockedLayout();
                 }else {
                     setLocked(true);
+                    companySingularDisplay.setLockedLayout();
                 }
             }
         });
