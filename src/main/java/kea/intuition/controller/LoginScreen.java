@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -17,11 +18,11 @@ import javafx.stage.Stage;
 import kea.intuition.Intuition;
 import kea.intuition.IntuitionLoginEvent;
 import kea.intuition.Tools;
+import kea.intuition.model.User;
 
 public class LoginScreen extends IScene{
 
-    public LoginScreen(Stage stage)
-    {
+    public LoginScreen(Stage stage) {
         layout = new BorderPane();
         layout.setBackground(new Background(new BackgroundFill(Paint.valueOf("#252f3e"), CornerRadii.EMPTY, Insets.EMPTY)));
         Intuition.setIsLoggedIn(false);
@@ -48,30 +49,25 @@ public class LoginScreen extends IScene{
         center.getChildren().add(logoPane);
 
         // INPUT TO LOGIN
-        TextField usernameInput = new TextField();
-        usernameInput.setAlignment(Pos.CENTER);
-        usernameInput.setPromptText("Username");
-        usernameInput.getStyleClass().add("input-field");
+        TextField usernameInput = createTextField("Username");
+        TextField passwordInput = createTextField("Password");
 
         usernameInput.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 if (event.getCode() == KeyCode.ENTER) {
-                    login();
+                    User user = new User( usernameInput.getText(), passwordInput.getText() );
+                    login( user );
                 }
             }
         });
-
-        TextField passwordInput = new TextField();
-        passwordInput.setAlignment(Pos.CENTER);
-        passwordInput.setPromptText("Password");
-        passwordInput.getStyleClass().add("input-field");
 
         passwordInput.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 if (event.getCode() == KeyCode.ENTER) {
-                    login();
+                    User user = new User( usernameInput.getText(), passwordInput.getText() );
+                    login( user );
                 }
             }
         });
@@ -111,7 +107,8 @@ public class LoginScreen extends IScene{
         loginButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                login();
+                User user = new User( usernameInput.getText(), passwordInput.getText() );
+                login( user );
             }
         });
 
@@ -130,8 +127,28 @@ public class LoginScreen extends IScene{
         scene.getStylesheets().add(contextClassLoader.getResource("css/login_screen.css").toExternalForm());
     }
 
-    private void login() {
-        // Fire custom login event
-        IntuitionLoginEvent.fireEvent(stage, new IntuitionLoginEvent(null, null, IntuitionLoginEvent.LOGIN_EVENT));
+    private TextField createTextField( String promptText ) {
+        TextField textField = new TextField();
+        textField.setAlignment(Pos.CENTER);
+        textField.setPromptText(promptText);
+        textField.getStyleClass().add("input-field");
+
+        return textField;
+    }
+
+    private void login( User user ) {
+        System.out.println(user.getUsername() + " " + user.getPassword());
+
+        if( user.getUsername() == "simon" ) {
+            // Fire custom login event
+            IntuitionLoginEvent.fireEvent(stage, new IntuitionLoginEvent(null, null, IntuitionLoginEvent.LOGIN_EVENT));
+        }else{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Looks like the user combination doesn't exists in our database!");
+
+            alert.showAndWait();
+        }
     }
 }
