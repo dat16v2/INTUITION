@@ -1,12 +1,15 @@
 package kea.intuition;
 
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import kea.intuition.controller.EventScreen;
 import kea.intuition.controller.IndexScreen;
 import kea.intuition.controller.LoginScreen;
 import kea.intuition.data.Database;
+import kea.intuition.data.DatabaseAsync;
+import kea.intuition.model.User;
 
 public class Intuition {
     private static boolean isLoggedIn;
@@ -95,7 +98,10 @@ public class Intuition {
         stage.setMinHeight(Intuition.Config.getMINHEIGHT());
         stage.setMinWidth(Intuition.Config.getMINWIDTH());
 
-        Config.setDb(new Database());
+        // Connect to database on a separate thread so the GUI can be shown as quickly as possible.
+        Thread asyncDb = new Thread(new DatabaseAsync(), "async-db-conn");
+        asyncDb.start();
+
         Fonts.Init();
         Config.setOs(Tools.determineOS());
         setnIsMaximized(false);
@@ -104,10 +110,29 @@ public class Intuition {
             @Override
             public void handle(IntuitionLoginEvent event) {
                 System.out.println("Check login info. If authenticated, proceed to main logged in screen");
-                Intuition.setIsLoggedIn(true);
-                Intuition.Screens.setIndexScreen(new IndexScreen(stage));
-                Intuition.Screens.setEventScreen(new EventScreen(stage));
-                stage.setScene(Intuition.Screens.getIndexScreen().getScene());
+
+                if (asyncDb.isAlive()) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Error");
+                    alert.setContentText("Haven't established a connection to the database yet! Try again in a moment.");
+
+                    alert.showAndWait();
+                } else {
+                    if (User.checkUser(event.getUser().getUsername(), event.getUser().getPassword())) {
+                        Intuition.setIsLoggedIn(true);
+                        Intuition.Screens.setIndexScreen(new IndexScreen(stage));
+                        Intuition.Screens.setEventScreen(new EventScreen(stage));
+                        stage.setScene(Intuition.Screens.getIndexScreen().getScene());
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Error");
+                        alert.setContentText("Wrong username or password!");
+
+                        alert.showAndWait();
+                    }
+                }
             }
         });
 

@@ -50,7 +50,6 @@ public class CompanyContainer {
 
     public static ObservableList<Company> getCompaniesFromDb() {
         ObservableList<Company> data =  FXCollections.observableArrayList();
-
         PreparedStatement statement = null;
         ResultSet rs = null;
 
