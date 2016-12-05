@@ -1,5 +1,6 @@
 package kea.intuition.data;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 import kea.intuition.Intuition;
@@ -47,6 +48,38 @@ public class CompanyContainer {
         CompanyContainer.getTableStructure().refresh(); // Refreshes table view
     }
 
+    public static ObservableList<Company> getCompaniesFromDb() {
+        ObservableList<Company> data =  FXCollections.observableArrayList();
+
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+
+        try {
+            statement = Intuition.Config.getDb().getConnection().prepareStatement("select business_id, business_name, business_phone, business_email from business");
+
+            rs = statement.executeQuery();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            System.exit(1);
+        }
+
+        try {
+            while (rs.next()) {
+                Company company = new Company();
+                company.setId(rs.getInt(1));
+                company.setName(rs.getString(2));
+                company.setPhoneNumber(rs.getString(3));
+                company.setEmail(rs.getString(4));
+                data.add(company);
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            System.exit(1);
+        }
+
+        return data;
+    }
+
     public static Company getCompanyFromDb(int id) {
         ResultSet rs = null;
         Company company = new Company();
@@ -63,9 +96,6 @@ public class CompanyContainer {
             exception.printStackTrace();
             System.exit(1);
         }
-
-
-
 
         try {
             while (rs.next()) {

@@ -208,22 +208,7 @@ public class IndexScreen extends IScene {
         //companiesTable.getStyleClass().add("companyTable");
 
         // test data
-        CompanyContainer.setData(FXCollections.observableArrayList(
-                new Company(1, "Phuong Quan Inc.", "phuong@phuongcorp.com",4.01, "00", "45", "20978633"),
-                new Company(2, "Asam Ali Corporation", "asam@ali.io",99.9, "-1", "1", "543534"),
-                new Company(3, "Konstantyner", "ssksi@konstaaaa.dk",99.99, "0011", "1", "2543123"),
-                new Company(4, "Emil H. Clausen Freelance", "kekekeke@ggg.kk",99.9, "-1", "45", "01234567"),
-                new Company(5, "kek", "example@example.example",4.01, "-1", "1", "0"),
-                new Company(6, "demo 00", "example@example.example",99.9, "-1", "1", "0"),
-                new Company(7, "demo 01", "example@example.example",99.99, "-1", "1", "0"),
-                new Company(8, "demo 02", "example@example.example",99.9, "-1", "1", "0"),
-                new Company(5, "kek", "example@example.example",4.01, "-1", "1", "0"),
-                new Company(6, "demo 00", "example@example.example",99.9, "-1", "1", "0"),
-                new Company(7, "demo 01", "example@example.example",99.99, "-1", "1", "0"),
-                new Company(5, "kek", "example@example.example",4.01, "-1", "1", "0"),
-                new Company(6, "demo 00", "example@example.example",99.9, "-1", "1", "0"),
-                new Company(7, "demo 01", "example@example.example",99.99, "-1", "1", "0")
-        ));
+        CompanyContainer.setData(CompanyContainer.getCompaniesFromDb());
 
         companiesTable.setItems(CompanyContainer.getData());
 
