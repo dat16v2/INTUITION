@@ -21,6 +21,7 @@ import kea.intuition.Tools;
 import kea.intuition.model.User;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class LoginScreen extends IScene{
 
@@ -153,17 +154,33 @@ public class LoginScreen extends IScene{
     }
 
     private boolean checkUser( String username, String password ) {
-        ResultSet rs = Intuition.Config.getDb().select("login_username, login_password", "login");
+        ResultSet rs = Intuition.Config.getDb().select("*", "login", "login_id > 0");
+        boolean triedValidUsername = false;
 
         try {
             while (rs.next()) {
-                if( username.equals(rs.getString(1)) && password.equals(rs.getString(2)) ) {
-                    return true;
+                if( username.equals(rs.getString(2)) ) {
+                    triedValidUsername = true;
+
+                    if( password.equals(rs.getString(3)) ) {
+                        logAttempt( rs.getInt(1), true );
+                        return true;
+                    }
+
+                    logAttempt( rs.getInt(1), false );
                 }
             }
         } catch (Exception ex) {
         }
 
+        if( triedValidUsername == false ) {
+            logAttempt( -1, false );
+        }
+
         return false;
+    }
+
+    private void logAttempt( int id, boolean success ) {
+        Intuition.Config.getDb().insertLogAttempt(id, success);
     }
 }

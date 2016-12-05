@@ -47,7 +47,25 @@ public class Database {
         }
     }
 
-    public ResultSet select( String select, String table) {
+    public void insertLogAttempt( int id, boolean success ) {
+        try {
+            statement.executeUpdate("INSERT INTO login_log (login_id, ll_success) VALUES ('" + id + "', '" + convertBooleanToTinyIntBecauseMySQLCanSuckMyBalls( success ) + "')");
+        } catch(SQLException e) {
+            System.err.print(e.getMessage());
+        } catch(Exception e) {
+            System.err.print(e.getMessage());
+        }
+    }
+
+    private int convertBooleanToTinyIntBecauseMySQLCanSuckMyBalls( boolean success ) {
+        if( success ) {
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
+    public ResultSet select( String select, String table ) {
         try {
             ResultSet resultSet = statement.executeQuery("SELECT " + select + " FROM " + table + "");
 
