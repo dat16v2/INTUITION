@@ -23,7 +23,7 @@ public class Database {
         }
     }
 
-    public void close(){
+    public void close() {
         try{
             connection.close();
         } catch(SQLException e) {
@@ -33,8 +33,21 @@ public class Database {
         }
     }
 
+    public ResultSet select( String select, String table) {
+        try {
+            ResultSet resultSet = statement.executeQuery("SELECT " + select + " FROM " + table + "");
 
-    public ResultSet select( String select, String table, String where ){
+            return resultSet;
+        } catch(SQLException e) {
+            System.err.print(e.getMessage());
+        } catch(Exception e) {
+            System.err.print(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public ResultSet select( String select, String table, String where ) {
         try {
             ResultSet resultSet = statement.executeQuery("SELECT " + select + " FROM " + table + " WHERE " + where  + "");
 
