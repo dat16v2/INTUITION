@@ -10,6 +10,27 @@ public class CompanySingularDisplay {
     private Pane layout;
     private Lock lock;
     private Company company;
+    private ModifiedValues modifiedValues;
+
+    public ModifiedValues getModifiedValues() {
+        return modifiedValues;
+    }
+
+    public void setModifiedValues(ModifiedValues modifiedValues) {
+        this.modifiedValues = modifiedValues;
+    }
+
+    private static class ModifiedValues {
+        private TextField companyNameField;
+
+        public TextField getCompanyNameField() {
+            return companyNameField;
+        }
+
+        public void setCompanyNameField(TextField companyNameField) {
+            this.companyNameField = companyNameField;
+        }
+    }
 
     public Company getCompany() {
         return company;
@@ -95,11 +116,11 @@ public class CompanySingularDisplay {
             Label companyNameLabel = new Label("Company:");
             companyNameLabel.getStyleClass().add("unlocked-label");
 
-            TextField companyNameField = new TextField();
+            getModifiedValues().setCompanyNameField(new TextField());
 
-            companyNameField.setText(company.getName());
+            getModifiedValues().getCompanyNameField().setText(company.getName());
 
-            companyName.getChildren().addAll(companyNameLabel, companyNameField);
+            companyName.getChildren().addAll(companyNameLabel, getModifiedValues().getCompanyNameField());
 
             content.getChildren().addAll(companyName);
         }

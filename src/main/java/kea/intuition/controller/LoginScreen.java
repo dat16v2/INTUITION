@@ -140,47 +140,7 @@ public class LoginScreen extends IScene{
     }
 
     private void login( User user ) {
-        if( checkUser( user.getUsername(), user.getPassword() ) ) {
             // Fire custom login event
-            IntuitionLoginEvent.fireEvent(stage, new IntuitionLoginEvent(null, null, IntuitionLoginEvent.LOGIN_EVENT));
-        }else{
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText("Error");
-            alert.setContentText("Wrong username or password!");
-
-            alert.showAndWait();
-        }
-    }
-
-    private boolean checkUser( String username, String password ) {
-        ResultSet rs = Intuition.Config.getDb().select("*", "login", "login_id > 0");
-        boolean triedValidUsername = false;
-
-        try {
-            while (rs.next()) {
-                if( username.equals(rs.getString(2)) ) {
-                    triedValidUsername = true;
-
-                    if( password.equals(rs.getString(3)) ) {
-                        logAttempt( rs.getInt(1), true );
-                        return true;
-                    }
-
-                    logAttempt( rs.getInt(1), false );
-                }
-            }
-        } catch (Exception ex) {
-        }
-
-        if( triedValidUsername == false ) {
-            logAttempt( -1, false );
-        }
-
-        return false;
-    }
-
-    private void logAttempt( int id, boolean success ) {
-        Intuition.Config.getDb().insertLogAttempt(id, success);
+            IntuitionLoginEvent.fireEvent(stage, new IntuitionLoginEvent(null, null, IntuitionLoginEvent.LOGIN_EVENT, user));
     }
 }
