@@ -5,7 +5,9 @@ import javafx.scene.control.TableView;
 import kea.intuition.Intuition;
 import kea.intuition.model.Company;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class CompanyContainer {
     private static ObservableList<Company> data;
@@ -45,16 +47,38 @@ public class CompanyContainer {
         CompanyContainer.getTableStructure().refresh(); // Refreshes table view
     }
 
-    public static void getCompanyFromDb(int id) {
-        ResultSet rs = Intuition.Config.getDb().select("login_username, login_password", "login", String.format("login_id=%d", id));
+    public static Company getCompanyFromDb(int id) {
+        ResultSet rs = null;
+        Company company = new Company();
+
+        PreparedStatement statement = null;
+
+        // Prepare SQL statement
+        try {
+            statement = Intuition.Config.getDb().getConnection().prepareStatement("select business_id, business_name, business_phone, business_email from business where business_id = ?");
+            statement.setInt(1, id);
+
+            rs = statement.executeQuery();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            System.exit(1);
+        }
+
+
+
 
         try {
             while (rs.next()) {
-                System.out.printf("Username: %s, password: %d\n", rs.getString(1), rs.getInt(2));
+                company.setId(rs.getInt(1));
+                company.setName(rs.getString(2));
+                company.setPhoneNumber(rs.getString(3));
+                company.setEmail(rs.getString(4));
             }
         } catch (Exception ex) {
 
         }
+
+        return company;
     }
 
     public static void removeCompany(Company company) {

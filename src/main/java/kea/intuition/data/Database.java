@@ -17,7 +17,7 @@ public class Database {
     private static Statement statement = null;
     private static Connection connection = null;
 
-    public static Connection getConnection() {
+    public Connection getConnection() {
         return connection;
     }
 
