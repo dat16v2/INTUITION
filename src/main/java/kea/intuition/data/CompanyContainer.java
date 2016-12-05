@@ -46,7 +46,7 @@ public class CompanyContainer {
     }
 
     public static void getCompanyFromDb(int id) {
-        ResultSet rs = Intuition.Config.getDb().select("login_username, login_password", "login", "login_id=1");
+        ResultSet rs = Intuition.Config.getDb().select("login_username, login_password", "login", String.format("login_id=%d", id));
 
         try {
             while (rs.next()) {
