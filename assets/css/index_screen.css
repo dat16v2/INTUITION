@@ -89,6 +89,14 @@
   -fx-font-family: 'Open Sans';
   -fx-font-weight: 300;
   -fx-font-size: 15px; }
+.company-display .unlocked-value-pane {
+  -fx-padding: 20 0 0 35; }
+.company-display .unlocked-label {
+  -fx-text-fill: #ffffff;
+  -fx-background-color: transparent;
+  -fx-font-family: 'Open Sans Semibold';
+  -fx-font-weight: 600;
+  -fx-font-size: 18px; }
 .company-display #lock {
   -fx-text-fill: #ffffff;
   -fx-font-family: 'Open Sans'; }

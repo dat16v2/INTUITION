@@ -20,6 +20,7 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import kea.intuition.Intuition;
 import kea.intuition.Tools;
+import kea.intuition.data.CompanyContainer;
 import kea.intuition.data.Lock;
 import kea.intuition.model.Company;
 
@@ -28,8 +29,6 @@ import java.util.function.Predicate;
 // ID: 1
 public class IndexScreen extends IScene {
     private int currentCompanySelection = 0;
-    private ObservableList<Company> data;
-    private TableView companiesTable;
 
     public IndexScreen(Stage stage) {
         sceneId = 1;
@@ -47,18 +46,19 @@ public class IndexScreen extends IScene {
         Pane bodyPane = new StackPane();
         bodyPane.setId("body");
 
-        companiesTable = getCompaniesTable();
-        CompanySingularDisplay companySingularDisplay = new CompanySingularDisplay((Company) companiesTable.getItems().get(0));
+        CompanyContainer.setTableStructure(getCompaniesTable());
+
+        CompanySingularDisplay companySingularDisplay = new CompanySingularDisplay((Company) CompanyContainer.getTableStructure().getItems().get(0));
         Pane companyDisplay = companySingularDisplay.getCompanyDisplay();
         VBox companiesTablePane = new VBox(0);
-        companiesTablePane.setVgrow(companiesTable, Priority.ALWAYS);
+        companiesTablePane.setVgrow(CompanyContainer.getTableStructure(), Priority.ALWAYS);
 
         TextField searchField = new TextField();
         Pane seachFieldPane = new StackPane();
         seachFieldPane.setId("search-field");
         searchField.getStyleClass().add("input-field");
 
-        FilteredList<Company> filteredList = new FilteredList<Company>(data, new Predicate<Company>() {
+        FilteredList<Company> filteredList = new FilteredList<Company>(CompanyContainer.getData(), new Predicate<Company>() {
             @Override
             public boolean test(Company company) {
                 return true;
@@ -96,17 +96,17 @@ public class IndexScreen extends IScene {
                         }
                     });
 
-                    companiesTable.getSelectionModel().selectFirst();
+                    CompanyContainer.getTableStructure().getSelectionModel().selectFirst();
             }
         });
 
         SortedList<Company> sortedData = new SortedList<Company>(filteredList);
 
-        sortedData.comparatorProperty().bind(companiesTable.comparatorProperty());
-        companiesTable.setItems(sortedData);
+        sortedData.comparatorProperty().bind(CompanyContainer.getTableStructure().comparatorProperty());
+        CompanyContainer.getTableStructure().setItems(sortedData);
 
         seachFieldPane.getChildren().add(searchField);
-        companiesTablePane.getChildren().addAll(seachFieldPane, companiesTable);
+        companiesTablePane.getChildren().addAll(seachFieldPane, CompanyContainer.getTableStructure());
 
         layout.setLeft(companiesTablePane);
         layout.setCenter(companyDisplay);
@@ -116,6 +116,7 @@ public class IndexScreen extends IScene {
         scene.getStylesheets().add(contextClassLoader.getResource("css/index_screen.css").toExternalForm());
     }
 
+    /*
     private Pane getCompanyDisplay(Company company) {
         VBox layout = new VBox(0);
         layout.getStyleClass().add("company-display");
@@ -169,6 +170,8 @@ public class IndexScreen extends IScene {
         return layout;
     }
 
+    */
+
     private void setTextFieldWidthProperly(TextField value) {
         value.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -205,7 +208,7 @@ public class IndexScreen extends IScene {
         //companiesTable.getStyleClass().add("companyTable");
 
         // test data
-        data = FXCollections.observableArrayList(
+        CompanyContainer.setData(FXCollections.observableArrayList(
                 new Company(1, "Phuong Quan Inc.", "phuong@phuongcorp.com",4.01, "00", "45", "20978633"),
                 new Company(2, "Asam Ali Corporation", "asam@ali.io",99.9, "-1", "1", "543534"),
                 new Company(3, "Konstantyner", "ssksi@konstaaaa.dk",99.99, "0011", "1", "2543123"),
@@ -220,9 +223,9 @@ public class IndexScreen extends IScene {
                 new Company(5, "kek", "example@example.example",4.01, "-1", "1", "0"),
                 new Company(6, "demo 00", "example@example.example",99.9, "-1", "1", "0"),
                 new Company(7, "demo 01", "example@example.example",99.99, "-1", "1", "0")
-        );
+        ));
 
-        companiesTable.setItems(data);
+        companiesTable.setItems(CompanyContainer.getData());
 
         companiesTable.getSelectionModel().selectFirst();
 

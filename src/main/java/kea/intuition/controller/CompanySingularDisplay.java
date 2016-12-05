@@ -11,6 +11,10 @@ public class CompanySingularDisplay {
     private Lock lock;
     private Company company;
 
+    public Company getCompany() {
+        return company;
+    }
+
     public CompanySingularDisplay(Company company) {
         lock = new Lock(this);
         this.company = company;
@@ -87,8 +91,9 @@ public class CompanySingularDisplay {
 
         if (company != null) {
             HBox companyName = new HBox(0);
+            companyName.getStyleClass().add("unlocked-value-pane");
             Label companyNameLabel = new Label("Company:");
-            companyNameLabel.setId("label-title");
+            companyNameLabel.getStyleClass().add("unlocked-label");
 
             TextField companyNameField = new TextField();
 

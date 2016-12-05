@@ -3,6 +3,7 @@ package kea.intuition.data;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import kea.intuition.Tools;
 import kea.intuition.controller.CompanySingularDisplay;
 
 public class Lock {
@@ -42,6 +43,14 @@ public class Lock {
                 }else {
                     setLocked(true);
                     companySingularDisplay.setLockedLayout();
+                    System.out.println(Tools.getCompanyHash(companySingularDisplay.getCompany()));
+
+                    if (Tools.validateCompanyHash(companySingularDisplay.getCompany(), Tools.getCompanyHash(companySingularDisplay.getCompany()))) {
+                        System.out.println("The hashes corresponds.");
+                    } else {
+                        System.out.println("The hashes does not correspond with each other.");
+                    }
+                    //CompanyContainer.getTableStructure().refresh(); // Refreshes table view
                 }
             }
         });

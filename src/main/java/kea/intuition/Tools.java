@@ -7,8 +7,13 @@ import javafx.event.EventTarget;
 import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Properties;
 import kea.intuition.controller.IScene;
+import kea.intuition.model.Company;
 
 public class Tools {
     public static void addDragToScene(Node primaryNode, IScene scene) {
@@ -48,5 +53,33 @@ public class Tools {
         }
 
         return os;
+    }
+
+    // SHA512 hash
+    private static String getHash(String value) {
+        MessageDigest messageDigest = null;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-512");
+        } catch (NoSuchAlgorithmException ex) {
+            System.out.println("Arrgh, this shouldn't happen at all!!!!!!");
+            System.exit(1);
+        }
+
+        String encodedHash = Base64.getEncoder().encodeToString(messageDigest.digest(value.getBytes()));
+
+        return encodedHash;
+    }
+
+    public static String getCompanyHash(Company company) {
+        String payload = String.format("%s;%s;%s;%s", company.getName(), company.getEmail(), company.getFormattedPhoneNumber(), company.getId());
+        return getHash(payload);
+    }
+
+    public static boolean validateCompanyHash(Company company, String hash) {
+        if (hash.equals(getCompanyHash(company))) {
+            return true;
+        } else {
+            return true;
+        }
     }
 }

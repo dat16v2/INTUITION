@@ -73,6 +73,22 @@
     -fx-font-size: 15px;
   }
 
+  .input-field {
+
+  }
+
+  .unlocked-value-pane {
+    -fx-padding: 20 0 0 35;
+  }
+
+  .unlocked-label {
+    -fx-text-fill: #ffffff;
+    -fx-background-color: transparent;
+    -fx-font-family: 'Open Sans Semibold';
+    -fx-font-weight: 600;
+    -fx-font-size: 18px;
+  }
+
   #lock {
     -fx-text-fill: #ffffff;
     -fx-font-family: 'Open Sans';
