@@ -6,6 +6,7 @@ import javafx.stage.StageStyle;
 import kea.intuition.controller.EventScreen;
 import kea.intuition.controller.IndexScreen;
 import kea.intuition.controller.LoginScreen;
+import kea.intuition.data.Database;
 
 public class Intuition {
     private static boolean isLoggedIn;
@@ -15,6 +16,15 @@ public class Intuition {
         private final static int MINHEIGHT = 500;
         private final static int MINWIDTH = 800;
         static Os os;
+        private static Database db;
+
+        public static Database getDb() {
+            return db;
+        }
+
+        public static void setDb(Database db) {
+            Config.db = db;
+        }
 
         static void setOs(Os os) {
             Config.os = os;
@@ -85,6 +95,7 @@ public class Intuition {
         stage.setMinHeight(Intuition.Config.getMINHEIGHT());
         stage.setMinWidth(Intuition.Config.getMINWIDTH());
 
+        Config.setDb(new Database());
         Fonts.Init();
         Config.setOs(Tools.determineOS());
         setnIsMaximized(false);

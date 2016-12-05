@@ -45,6 +45,8 @@ public class Lock {
                     companySingularDisplay.setLockedLayout();
                     System.out.println(Tools.getCompanyHash(companySingularDisplay.getCompany()));
 
+                    CompanyContainer.getCompanyFromDb(1);
+
                     if (Tools.validateCompanyHash(companySingularDisplay.getCompany(), Tools.getCompanyHash(companySingularDisplay.getCompany()))) {
                         System.out.println("The hashes corresponds.");
                     } else {

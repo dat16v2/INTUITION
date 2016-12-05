@@ -139,7 +139,7 @@ public class LoginScreen extends IScene{
     private void login( User user ) {
         System.out.println(user.getUsername() + " " + user.getPassword());
 
-        if( user.getUsername() == "simon" ) {
+        if( user.getUsername().equals("simon")) {
             // Fire custom login event
             IntuitionLoginEvent.fireEvent(stage, new IntuitionLoginEvent(null, null, IntuitionLoginEvent.LOGIN_EVENT));
         }else{

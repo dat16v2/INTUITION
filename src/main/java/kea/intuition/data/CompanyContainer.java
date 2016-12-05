@@ -2,7 +2,10 @@ package kea.intuition.data;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
+import kea.intuition.Intuition;
 import kea.intuition.model.Company;
+
+import java.sql.ResultSet;
 
 public class CompanyContainer {
     private static ObservableList<Company> data;
@@ -42,8 +45,16 @@ public class CompanyContainer {
         CompanyContainer.getTableStructure().refresh(); // Refreshes table view
     }
 
-    public static void getCompanyFromDb(int value) {
+    public static void getCompanyFromDb(int id) {
+        ResultSet rs = Intuition.Config.getDb().select("login_username, login_password", "login", "login_id=1");
 
+        try {
+            while (rs.next()) {
+                System.out.printf("Username: %s, password: %d\n", rs.getString(1), rs.getInt(2));
+            }
+        } catch (Exception ex) {
+
+        }
     }
 
     public static void removeCompany(Company company) {

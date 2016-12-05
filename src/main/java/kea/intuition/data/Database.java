@@ -3,9 +3,9 @@ package kea.intuition.data;
 import java.sql.*;
 
 public class Database {
-    private static String dbUrl = "jdbc:mysql://seq.tf:3306/intuition";
-    private static String dbUsername = "intuition";
-    private static String dbPassword = "intuition";
+    private static String dbUrl = "";
+    private static String dbUsername = "";
+    private static String dbPassword = "";
     private static Statement statement = null;
     private static Connection connection = null;
 
@@ -14,10 +14,12 @@ public class Database {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
             statement = connection.createStatement();
+
         } catch(SQLException e) {
             System.err.print(e.getMessage());
         } catch(Exception e) {
-            System.err.print(e.getMessage());
+            System.out.print(e.getMessage());
+            System.exit(1);
         }
     }
 
