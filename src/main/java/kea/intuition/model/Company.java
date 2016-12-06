@@ -9,8 +9,66 @@ public class Company {
     private String phoneNumberPrefix;
     private String phoneNumberCountryCallingCode;
 
+    public Company() {
+        setId(-1);
+        setName("");
+        setScore(0.0);
+        setEmail("");
+        setPhoneNumber("");
+        setPhoneNumberPrefix("00");
+        setPhoneNumberCountryCallingCode("45");
+    }
+
+    public Company(int id, String name, String email, double score, String phoneNumberPrefix, String phoneNumberCountryCallingCode, String phoneNumber) {
+        setId(id);
+        setName(name);
+        setScore(score);
+        setEmail(email);
+        setPhoneNumber(phoneNumber);
+
+        if (phoneNumberPrefix.equals("-1")) {
+            setPhoneNumberPrefix("00");
+        } else {
+            setPhoneNumberPrefix(phoneNumberPrefix);
+        }
+
+        if (phoneNumberCountryCallingCode.equals("-1")) {
+            setPhoneNumberCountryCallingCode("45");
+        } else {
+            setPhoneNumberCountryCallingCode(phoneNumberCountryCallingCode);
+        }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPhoneNumber() {
@@ -37,11 +95,6 @@ public class Company {
         this.phoneNumberCountryCallingCode = phoneNumberCountryCallingCode;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-
     public String getFormattedPhoneNumber() {
         if (this.phoneNumberPrefix.equals("-1")) {
             // Default to DK prefix
@@ -54,51 +107,5 @@ public class Company {
         }
 
         return String.format("+%s%s %s", this.phoneNumberPrefix, this.phoneNumberCountryCallingCode, this.phoneNumber);
-    }
-
-    public Company() {
-
-    }
-
-    public Company(int id, String name, String email, double score, String phoneNumberPrefix, String phoneNumberCountryCallingCode, String phoneNumber) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.score = score;
-        if (phoneNumberPrefix.equals("-1")) {
-            this.phoneNumberPrefix = "00";
-        } else {
-            this.phoneNumberPrefix = phoneNumberPrefix;
-        }
-        if (phoneNumberCountryCallingCode.equals("-1")) {
-            this.phoneNumberCountryCallingCode = "45";
-        } else {
-            this.phoneNumberCountryCallingCode = phoneNumberCountryCallingCode;
-        }
-        this.phoneNumber = phoneNumber;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getScore() {
-        return score;
-    }
-
-    public void setScore(double score) {
-        this.score = score;
     }
 }
