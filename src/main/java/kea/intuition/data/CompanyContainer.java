@@ -2,6 +2,8 @@ package kea.intuition.data;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.scene.control.TableView;
 import kea.intuition.Intuition;
 import kea.intuition.model.Company;
@@ -13,6 +15,24 @@ import java.sql.SQLException;
 public class CompanyContainer {
     private static ObservableList<Company> data;
     private static TableView tableStructure;
+    private static FilteredList<Company> filteredList;
+    private static SortedList<Company> sortedList;
+
+    public static FilteredList<Company> getFilteredList() {
+        return filteredList;
+    }
+
+    public static void setFilteredList(FilteredList<Company> filteredList) {
+        CompanyContainer.filteredList = filteredList;
+    }
+
+    public static SortedList<Company> getSortedList() {
+        return sortedList;
+    }
+
+    public static void setSortedList(SortedList<Company> sortedList) {
+        CompanyContainer.sortedList = sortedList;
+    }
 
     public static ObservableList<Company> getData() {
         return data;

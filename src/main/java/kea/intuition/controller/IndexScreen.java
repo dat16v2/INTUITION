@@ -19,6 +19,7 @@ import kea.intuition.Intuition;
 import kea.intuition.Tools;
 import kea.intuition.data.CompanyContainer;
 import kea.intuition.data.DatabaseBackgroundSyncAsync;
+import kea.intuition.data.SearchFieldHandler;
 import kea.intuition.model.Company;
 
 import java.util.function.Predicate;
@@ -55,52 +56,20 @@ public class IndexScreen extends IScene {
         seachFieldPane.setId("search-field");
         searchField.getStyleClass().add("input-field");
 
-        FilteredList<Company> filteredList = new FilteredList<Company>(CompanyContainer.getData(), new Predicate<Company>() {
+        CompanyContainer.setFilteredList(new FilteredList<Company>(CompanyContainer.getData(), new Predicate<Company>() {
             @Override
             public boolean test(Company company) {
                 return true;
             }
-        });
+        }));
 
-        searchField.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<javafx.scene.input.KeyEvent>() {
-            @Override
-            public void handle(javafx.scene.input.KeyEvent event) {
-                    filteredList.setPredicate(new Predicate<Company>() {
-                        @Override
-                        public boolean test(Company company) {
-                            if (searchField.getText().isEmpty() || searchField.getText() == null) {
-                                return true;
-                            }
+        SearchFieldHandler searchFieldHandler = new SearchFieldHandler(searchField);
+        searchField.addEventHandler(KeyEvent.KEY_RELEASED, searchFieldHandler);
 
-                            String lowerCasedSearch = searchField.getText().toLowerCase();
+        CompanyContainer.setSortedList(new SortedList<Company>(CompanyContainer.getFilteredList()));
 
-                            if (lowerCasedSearch.contains("id:")) {
-                                String id = "";
-                                for (int i = 3; i < lowerCasedSearch.length(); i++) {
-                                    id = id + lowerCasedSearch.charAt(i);
-                                }
-
-                                if (Integer.toString(company.getId()).equals(id)) {
-                                    return true;
-                                }
-                            }
-
-                            if (company.getName().toLowerCase().contains(lowerCasedSearch)) {
-                                return true;
-                            }
-
-                            return false;
-                        }
-                    });
-
-                    CompanyContainer.getTableStructure().getSelectionModel().selectFirst();
-            }
-        });
-
-        SortedList<Company> sortedData = new SortedList<Company>(filteredList);
-
-        sortedData.comparatorProperty().bind(CompanyContainer.getTableStructure().comparatorProperty());
-        CompanyContainer.getTableStructure().setItems(sortedData);
+        CompanyContainer.getSortedList().comparatorProperty().bind(CompanyContainer.getTableStructure().comparatorProperty());
+        CompanyContainer.getTableStructure().setItems(CompanyContainer.getSortedList());
 
         seachFieldPane.getChildren().add(searchField);
         companiesTablePane.getChildren().addAll(seachFieldPane, CompanyContainer.getTableStructure());
@@ -113,7 +82,7 @@ public class IndexScreen extends IScene {
         scene.getStylesheets().add(contextClassLoader.getResource("css/index_screen.css").toExternalForm());
 
         // Start background db sync
-        Thread asyncDbSync = new Thread(new DatabaseBackgroundSyncAsync(this.stage), "async-db-sync");
+        Thread asyncDbSync = new Thread(new DatabaseBackgroundSyncAsync(this.stage, searchField), "async-db-sync");
         asyncDbSync.start();
     }
 
