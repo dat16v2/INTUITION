@@ -40,6 +40,7 @@ public class CompanySingularDisplay {
         lock = new Lock(this);
         this.company = company;
         this.layout = new VBox(0);
+        setModifiedValues(new ModifiedValues());
         setLockedLayout();
     }
 
