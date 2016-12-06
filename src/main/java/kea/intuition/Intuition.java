@@ -18,8 +18,17 @@ public class Intuition {
     public static class Config {
         private final static int MINHEIGHT = 500;
         private final static int MINWIDTH = 800;
+        private static boolean dbLock = false;
         static Os os;
         private static Database db;
+
+        public static boolean isDbLock() {
+            return dbLock;
+        }
+
+        public static void setDbLock(boolean dbLock) {
+            Config.dbLock = dbLock;
+        }
 
         public static Database getDb() {
             return db;

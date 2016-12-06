@@ -2,6 +2,7 @@ package kea.intuition.data;
 
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import kea.intuition.Intuition;
 import kea.intuition.model.Company;
 
 public class DatabaseBackgroundSyncAsync implements Runnable {
@@ -24,10 +25,13 @@ public class DatabaseBackgroundSyncAsync implements Runnable {
                 System.exit(1);
             }
 
-            CompanyContainer.setData(CompanyContainer.getCompaniesFromDb());
-            Platform.runLater(new updateView());
+            if (Intuition.Config.isDbLock()) {
+                // Update local cache of db.
+                System.out.println("Updating.");
+                CompanyContainer.setData(CompanyContainer.getCompaniesFromDb());
+                Platform.runLater(new updateView());
+            }
 
-            // Update local cache of db.
         }
     }
 

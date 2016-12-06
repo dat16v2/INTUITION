@@ -3,6 +3,7 @@ package kea.intuition.data;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import kea.intuition.Intuition;
 import kea.intuition.Tools;
 import kea.intuition.controller.CompanySingularDisplay;
 import kea.intuition.model.Company;
@@ -18,6 +19,7 @@ public class Lock {
 
     public void setLocked(boolean locked) {
         this.locked = locked;
+        Intuition.Config.setDbLock(locked);
 
         if (this.locked) {
             label.setText("locked");
