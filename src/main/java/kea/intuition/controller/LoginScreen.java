@@ -140,7 +140,7 @@ public class LoginScreen extends IScene{
     }
 
     private void login( User user ) {
-            // Fire custom login event
-            IntuitionLoginEvent.fireEvent(stage, new IntuitionLoginEvent(null, null, IntuitionLoginEvent.LOGIN_EVENT, user));
+        // Fire custom login event
+        IntuitionLoginEvent.fireEvent(stage, new IntuitionLoginEvent(null, null, IntuitionLoginEvent.LOGIN_EVENT, user));
     }
 }
