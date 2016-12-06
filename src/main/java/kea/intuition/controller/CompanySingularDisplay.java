@@ -3,6 +3,7 @@ package kea.intuition.controller;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
+import kea.intuition.Tools;
 import kea.intuition.data.Lock;
 import kea.intuition.model.Company;
 
@@ -11,6 +12,11 @@ public class CompanySingularDisplay {
     private Lock lock;
     private Company company;
     private ModifiedValues modifiedValues;
+    private String integrityHash;
+
+    public String getIntegrityHash() {
+        return integrityHash;
+    }
 
     public ModifiedValues getModifiedValues() {
         return modifiedValues;
@@ -20,7 +26,7 @@ public class CompanySingularDisplay {
         this.modifiedValues = modifiedValues;
     }
 
-    private static class ModifiedValues {
+    public static class ModifiedValues {
         private TextField companyNameField;
 
         public TextField getCompanyNameField() {
@@ -40,6 +46,7 @@ public class CompanySingularDisplay {
         lock = new Lock(this);
         this.company = company;
         this.layout = new VBox(0);
+        this.integrityHash = Tools.getCompanyHash(this.company);
         setModifiedValues(new ModifiedValues());
         setLockedLayout();
     }

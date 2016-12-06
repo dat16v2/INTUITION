@@ -37,6 +37,9 @@ public class CompanyContainer {
     public static void editCompany(Company localCompany, Company newCompany) {
         // Attempt to save to database
 
+        saveExistingCompanyToDb(newCompany);
+
+
         // Refresh local data
         localCompany.setName(newCompany.getName());
         localCompany.setEmail(newCompany.getEmail());
@@ -108,6 +111,23 @@ public class CompanyContainer {
         }
 
         return company;
+    }
+
+    public static void saveExistingCompanyToDb(Company company) {
+        PreparedStatement statement = null;
+
+        try {
+            statement = Intuition.Config.getDb().getConnection().prepareStatement("update business set business_name=? where business_id=?");
+            statement.setString(1, company.getName());
+            statement.setInt(2, company.getId());
+
+            boolean result = statement.execute();
+
+
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            System.exit(1);
+        }
     }
 
     public static void removeCompany(Company company) {

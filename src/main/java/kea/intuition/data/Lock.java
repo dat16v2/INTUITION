@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import kea.intuition.Tools;
 import kea.intuition.controller.CompanySingularDisplay;
+import kea.intuition.model.Company;
 
 public class Lock {
     private boolean locked;
@@ -41,16 +42,23 @@ public class Lock {
                     setLocked(false);
                     companySingularDisplay.setUnlockedLayout();
                 }else {
-                    setLocked(true);
-                    companySingularDisplay.setLockedLayout();
-                    System.out.println(Tools.getCompanyHash(companySingularDisplay.getCompany()));
-
-
-                    if (Tools.validateCompanyHash(companySingularDisplay.getCompany(), Tools.getCompanyHash(companySingularDisplay.getCompany()))) {
+                    if (Tools.validateCompanyHash(CompanyContainer.getCompanyFromDb(companySingularDisplay.getCompany().getId()), companySingularDisplay.getIntegrityHash())) {
                         System.out.println("The hashes corresponds.");
+                        System.out.println("Proceeding to save changes.");
+                        Company newCompany = new Company();
+
+                        newCompany.setName(companySingularDisplay.getModifiedValues().getCompanyNameField().getText());
+
+                        CompanyContainer.editCompany(companySingularDisplay.getCompany(), newCompany);
+
                     } else {
                         System.out.println("The hashes does not correspond with each other.");
+                        System.out.println("Someone else has made a change during this editing session.");
                     }
+
+
+                    setLocked(true);
+                    companySingularDisplay.setLockedLayout();
                     //CompanyContainer.getTableStructure().refresh(); // Refreshes table view
                 }
             }
