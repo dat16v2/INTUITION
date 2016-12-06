@@ -8,7 +8,7 @@ public class Company {
     private String phoneNumber;
     private String phoneNumberPrefix;
     private String phoneNumberCountryCallingCode;
-
+ 
     public Company() {
         setId(-1);
         setName("");
