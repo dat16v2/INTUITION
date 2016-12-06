@@ -2,14 +2,11 @@ package kea.intuition.controller;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -21,7 +18,7 @@ import javafx.stage.Stage;
 import kea.intuition.Intuition;
 import kea.intuition.Tools;
 import kea.intuition.data.CompanyContainer;
-import kea.intuition.data.Lock;
+import kea.intuition.data.DatabaseBackgroundSyncAsync;
 import kea.intuition.model.Company;
 
 import java.util.function.Predicate;
@@ -114,6 +111,10 @@ public class IndexScreen extends IScene {
         Tools.addDragToScene(layout, this);
         final ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         scene.getStylesheets().add(contextClassLoader.getResource("css/index_screen.css").toExternalForm());
+
+        // Start background db sync
+        Thread asyncDbSync = new Thread(new DatabaseBackgroundSyncAsync(this.stage), "async-db-sync");
+        asyncDbSync.start();
     }
 
     /*
@@ -229,8 +230,7 @@ public class IndexScreen extends IScene {
             }
         });
 
+
         return companiesTable;
     }
-
-
 }
