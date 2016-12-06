@@ -18,6 +18,10 @@ public class CompanySingularDisplay {
         return integrityHash;
     }
 
+    public void setIntegrityHash(String integrityHash) {
+        this.integrityHash = integrityHash;
+    }
+
     public ModifiedValues getModifiedValues() {
         return modifiedValues;
     }
@@ -28,6 +32,7 @@ public class CompanySingularDisplay {
 
     public static class ModifiedValues {
         private TextField companyNameField;
+        private TextField companyPhoneNumberField;
 
         public TextField getCompanyNameField() {
             return companyNameField;
@@ -35,6 +40,14 @@ public class CompanySingularDisplay {
 
         public void setCompanyNameField(TextField companyNameField) {
             this.companyNameField = companyNameField;
+        }
+
+        public TextField getCompanyPhoneNumberField() {
+            return companyPhoneNumberField;
+        }
+
+        public void setCompanyPhoneNumberField(TextField companyPhoneNumberField) {
+            this.companyPhoneNumberField = companyPhoneNumberField;
         }
     }
 
@@ -46,7 +59,9 @@ public class CompanySingularDisplay {
         lock = new Lock(this);
         this.company = company;
         this.layout = new VBox(0);
-        this.integrityHash = Tools.getCompanyHash(this.company);
+        if (company != null) {
+            this.integrityHash = Tools.getCompanyHash(company);
+        }
         setModifiedValues(new ModifiedValues());
         setLockedLayout();
     }
@@ -119,6 +134,7 @@ public class CompanySingularDisplay {
         VBox content = new VBox(2);
 
         if (company != null) {
+            // Company name
             HBox companyName = new HBox(0);
             companyName.getStyleClass().add("unlocked-value-pane");
             Label companyNameLabel = new Label("Company:");
@@ -130,7 +146,19 @@ public class CompanySingularDisplay {
 
             companyName.getChildren().addAll(companyNameLabel, getModifiedValues().getCompanyNameField());
 
-            content.getChildren().addAll(companyName);
+            // Phone number
+            HBox phoneNumber = new HBox(0);
+            phoneNumber.getStyleClass().add("unlocked-value-pane");
+            Label phoneNumberLabel = new Label("Phone number:");
+            phoneNumberLabel.getStyleClass().add("unlocked-label");
+
+            getModifiedValues().setCompanyPhoneNumberField(new TextField());
+
+            getModifiedValues().getCompanyPhoneNumberField().setText(company.getPhoneNumber());
+
+            phoneNumber.getChildren().addAll(phoneNumberLabel, getModifiedValues().getCompanyPhoneNumberField());
+
+            content.getChildren().addAll(companyName, phoneNumber);
         }
 
         layout.getChildren().addAll(paddingTopContent, lockPane, content);

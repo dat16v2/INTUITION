@@ -71,15 +71,11 @@ public class Tools {
     }
 
     public static String getCompanyHash(Company company) {
-        String payload = String.format("%s;%s;%s;%s", company.getName(), company.getEmail(), company.getFormattedPhoneNumber(), company.getId());
+        String payload = String.format("%s;%s;%s;%s", company.getName(), company.getEmail(), company.getPhoneNumber(), company.getId());
         return getHash(payload);
     }
 
     public static boolean validateCompanyHash(Company company, String hash) {
-        if (hash.equals(getCompanyHash(company))) {
-            return true;
-        } else {
-            return true;
-        }
+        return hash.equals(getCompanyHash(company));
     }
 }

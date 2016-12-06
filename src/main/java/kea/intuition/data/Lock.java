@@ -44,13 +44,20 @@ public class Lock {
                 }else {
                     if (Tools.validateCompanyHash(CompanyContainer.getCompanyFromDb(companySingularDisplay.getCompany().getId()), companySingularDisplay.getIntegrityHash())) {
                         System.out.println("The hashes corresponds.");
-                        System.out.println("Proceeding to save changes.");
                         Company newCompany = new Company();
 
                         newCompany.setName(companySingularDisplay.getModifiedValues().getCompanyNameField().getText());
+                        newCompany.setId(companySingularDisplay.getCompany().getId());
+                        newCompany.setPhoneNumber(companySingularDisplay.getModifiedValues().getCompanyPhoneNumberField().getText());
+                        newCompany.setEmail(companySingularDisplay.getCompany().getEmail());
 
-                        CompanyContainer.editCompany(companySingularDisplay.getCompany(), newCompany);
-
+                        if (!Tools.validateCompanyHash(newCompany,companySingularDisplay.getIntegrityHash())) {
+                            System.out.println("Changed in data detected. Proceeding to save changes.");
+                            CompanyContainer.editCompany(companySingularDisplay.getCompany(), newCompany);
+                            companySingularDisplay.setIntegrityHash(Tools.getCompanyHash(newCompany));
+                        } else {
+                            System.out.println("No change has been detected. Unlocking.");
+                        }
                     } else {
                         System.out.println("The hashes does not correspond with each other.");
                         System.out.println("Someone else has made a change during this editing session.");
