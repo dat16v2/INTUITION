@@ -16,6 +16,10 @@ public class SearchFieldHandler implements EventHandler<javafx.scene.input.KeyEv
 
     @Override
     public void handle(javafx.scene.input.KeyEvent event) {
+        manualHandle(searchField);
+    }
+
+    public static void manualHandle(TextField searchField) {
         CompanyContainer.getFilteredList().setPredicate(new Predicate<Company>() {
             @Override
             public boolean test(Company company) {

@@ -61,42 +61,10 @@ public class DatabaseBackgroundSyncAsync implements Runnable {
             CompanyContainer.getSortedList().comparatorProperty().bind(CompanyContainer.getTableStructure().comparatorProperty());
             CompanyContainer.getTableStructure().setItems(CompanyContainer.getSortedList());
 
-            manualHandle();
+            SearchFieldHandler.manualHandle(searchField);
 
             CompanyContainer.getTableStructure().getSelectionModel().select(selected);
             CompanyContainer.getTableStructure().getFocusModel().focus(CompanyContainer.getTableStructure().getSelectionModel().getSelectedIndex());
-        }
-
-        public void manualHandle() {
-            CompanyContainer.getFilteredList().setPredicate(new Predicate<Company>() {
-                @Override
-                public boolean test(Company company) {
-                    if (searchField.getText().isEmpty() || searchField.getText() == null) {
-                        return true;
-                    }
-
-                    String lowerCasedSearch = searchField.getText().toLowerCase();
-
-                    if (lowerCasedSearch.contains("id:")) {
-                        String id = "";
-                        for (int i = 3; i < lowerCasedSearch.length(); i++) {
-                            id = id + lowerCasedSearch.charAt(i);
-                        }
-
-                        if (Integer.toString(company.getId()).equals(id)) {
-                            return true;
-                        }
-                    }
-
-                    if (company.getName().toLowerCase().contains(lowerCasedSearch)) {
-                        return true;
-                    }
-
-                    return false;
-                }
-            });
-
-            CompanyContainer.getTableStructure().getSelectionModel().selectFirst();
         }
     }
 }
