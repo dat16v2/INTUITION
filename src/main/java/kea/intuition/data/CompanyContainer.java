@@ -117,10 +117,11 @@ public class CompanyContainer {
         PreparedStatement statement = null;
 
         try {
-            statement = Intuition.Config.getDb().getConnection().prepareStatement("update business set business_name = ?, business_phone = ? where business_id = ?");
+            statement = Intuition.Config.getDb().getConnection().prepareStatement("update business set business_name = ?, business_phone = ?, business_email = ? where business_id = ?");
             statement.setString(1, company.getName());
             statement.setString(2, company.getPhoneNumber());
-            statement.setInt(3, company.getId());
+            statement.setString(3, company.getEmail());
+            statement.setInt(4, company.getId());
 
             statement.executeUpdate();
 

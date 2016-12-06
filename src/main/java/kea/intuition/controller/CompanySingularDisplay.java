@@ -33,6 +33,7 @@ public class CompanySingularDisplay {
     public static class ModifiedValues {
         private TextField companyNameField;
         private TextField companyPhoneNumberField;
+        private TextField companyEmailField;
 
         public TextField getCompanyNameField() {
             return companyNameField;
@@ -48,6 +49,14 @@ public class CompanySingularDisplay {
 
         public void setCompanyPhoneNumberField(TextField companyPhoneNumberField) {
             this.companyPhoneNumberField = companyPhoneNumberField;
+        }
+
+        public TextField getCompanyEmailField() {
+            return companyEmailField;
+        }
+
+        public void setCompanyEmailField(TextField companyEmailField) {
+            this.companyEmailField = companyEmailField;
         }
     }
 
@@ -147,18 +156,30 @@ public class CompanySingularDisplay {
             companyName.getChildren().addAll(companyNameLabel, getModifiedValues().getCompanyNameField());
 
             // Phone number
-            HBox phoneNumber = new HBox(0);
-            phoneNumber.getStyleClass().add("unlocked-value-pane");
-            Label phoneNumberLabel = new Label("Phone number:");
-            phoneNumberLabel.getStyleClass().add("unlocked-label");
+            HBox companyPhoneNumber = new HBox(0);
+            companyPhoneNumber .getStyleClass().add("unlocked-value-pane");
+            Label companyPhoneNumberLabel = new Label("Phone number:");
+            companyPhoneNumberLabel.getStyleClass().add("unlocked-label");
 
             getModifiedValues().setCompanyPhoneNumberField(new TextField());
 
             getModifiedValues().getCompanyPhoneNumberField().setText(company.getPhoneNumber());
 
-            phoneNumber.getChildren().addAll(phoneNumberLabel, getModifiedValues().getCompanyPhoneNumberField());
+            companyPhoneNumber.getChildren().addAll(companyPhoneNumberLabel, getModifiedValues().getCompanyPhoneNumberField());
 
-            content.getChildren().addAll(companyName, phoneNumber);
+            // Email
+            HBox companyEmail = new HBox(0);
+            companyEmail.getStyleClass().addAll("unlocked-value-pane");
+            Label companyEmailLabel = new Label("Email:");
+            companyEmailLabel.getStyleClass().add("unlocked-label");
+
+            getModifiedValues().setCompanyEmailField(new TextField());
+
+            getModifiedValues().getCompanyEmailField().setText(company.getEmail());
+
+            companyEmail.getChildren().addAll(companyEmailLabel, getModifiedValues().getCompanyEmailField());
+
+            content.getChildren().addAll(companyName, companyPhoneNumber, companyEmail);
         }
 
         layout.getChildren().addAll(paddingTopContent, lockPane, content);

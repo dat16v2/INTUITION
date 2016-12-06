@@ -46,10 +46,10 @@ public class Lock {
                         System.out.println("The hashes corresponds.");
                         Company newCompany = new Company();
 
-                        newCompany.setName(companySingularDisplay.getModifiedValues().getCompanyNameField().getText());
                         newCompany.setId(companySingularDisplay.getCompany().getId());
+                        newCompany.setName(companySingularDisplay.getModifiedValues().getCompanyNameField().getText());
                         newCompany.setPhoneNumber(companySingularDisplay.getModifiedValues().getCompanyPhoneNumberField().getText());
-                        newCompany.setEmail(companySingularDisplay.getCompany().getEmail());
+                        newCompany.setEmail(companySingularDisplay.getModifiedValues().getCompanyEmailField().getText());
 
                         if (!Tools.validateCompanyHash(newCompany,companySingularDisplay.getIntegrityHash())) {
                             System.out.println("Changed in data detected. Proceeding to save changes.");
