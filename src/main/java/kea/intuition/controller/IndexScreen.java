@@ -58,10 +58,13 @@ public class IndexScreen extends IScene {
         Pane seachFieldPane = new StackPane();
         HBox searchFieldPaneItems = new HBox(0);
 
+        // Search field
+
         searchFieldPaneItems.setAlignment(Pos.CENTER);
         seachFieldPane.setId("search-field");
         searchField.getStyleClass().add("input-field");
 
+        // Add new company button
         Label addSignLabel = new Label("+");
         addSignLabel.setId("add-sign-label");
 
@@ -93,6 +96,14 @@ public class IndexScreen extends IScene {
             }
         });
 
+        addSignLabel.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                CompanyCreationSingularDisplay companyCreationSingularDisplay = new CompanyCreationSingularDisplay();
+                layout.setCenter(companyCreationSingularDisplay.getLayout());
+            }
+        });
+
 
         CompanyContainer.setFilteredList(new FilteredList<Company>(CompanyContainer.getData(), new Predicate<Company>() {
             @Override
@@ -100,6 +111,8 @@ public class IndexScreen extends IScene {
                 return true;
             }
         }));
+
+        // Add sorting to search field
 
         SearchFieldHandler searchFieldHandler = new SearchFieldHandler(searchField);
         searchField.addEventHandler(KeyEvent.KEY_RELEASED, searchFieldHandler);
