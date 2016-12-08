@@ -3,26 +3,23 @@ package kea.intuition.model;
 public class Company {
     private int id;
     private String name;
-    private double score;
     private String email;
     private String phoneNumber;
     private String phoneNumberPrefix;
     private String phoneNumberCountryCallingCode;
- 
+
     public Company() {
         setId(-1);
         setName("");
-        setScore(0.0);
         setEmail("");
         setPhoneNumber("");
         setPhoneNumberPrefix("00");
         setPhoneNumberCountryCallingCode("45");
     }
 
-    public Company(int id, String name, String email, double score, String phoneNumberPrefix, String phoneNumberCountryCallingCode, String phoneNumber) {
+    public Company(int id, String name, String email, String phoneNumberPrefix, String phoneNumberCountryCallingCode, String phoneNumber) {
         setId(id);
         setName(name);
-        setScore(score);
         setEmail(email);
         setPhoneNumber(phoneNumber);
 
@@ -53,14 +50,6 @@ public class Company {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public double getScore() {
-        return score;
-    }
-
-    public void setScore(double score) {
-        this.score = score;
     }
 
     public String getEmail() {

@@ -165,12 +165,10 @@ public class IndexScreen extends IScene {
         companyId.setCellValueFactory(new PropertyValueFactory<Company, Integer>("id"));
 
         TableColumn<Company, String> companyName = new TableColumn<>("Name");
+        companyName.setMinWidth(300);
         companyName.setCellValueFactory(new PropertyValueFactory<Company, String>("name"));
 
-        TableColumn<Company, Double> companyScore = new TableColumn<>("Score");
-        companyScore.setCellValueFactory(new PropertyValueFactory<Company, Double>("score"));
-
-        companiesTable.getColumns().addAll(companyId, companyName, companyScore);
+        companiesTable.getColumns().addAll(companyId, companyName);
 
         companiesTable.setStyle("-fx-padding: 7 0 0 19; -fx-min-width: 400px;");
         //companiesTable.setMaxWidth(600);

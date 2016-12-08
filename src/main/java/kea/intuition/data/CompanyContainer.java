@@ -66,7 +66,6 @@ public class CompanyContainer {
         localCompany.setPhoneNumber(newCompany.getPhoneNumber());
         localCompany.setPhoneNumberCountryCallingCode(newCompany.getPhoneNumberCountryCallingCode());
         localCompany.setPhoneNumberPrefix(newCompany.getPhoneNumberPrefix());
-        localCompany.setScore(newCompany.getScore());
 
         CompanyContainer.getTableStructure().refresh(); // Refreshes table view
     }
