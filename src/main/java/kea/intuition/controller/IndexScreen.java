@@ -8,10 +8,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -94,15 +91,9 @@ public class IndexScreen extends IScene {
             @Override
             public void handle(MouseEvent event) {
                 addSignLabel.setId("add-sign-label-hover");
-            }
-        });
-
-        addSignLabel.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                IntuitionLockEvent.fireEvent(stage, new IntuitionLockEvent(null, null, IntuitionLockEvent.LOCK_CHANGED_EVENT, false));
-                CompanyCreationSingularDisplay companyCreationSingularDisplay = new CompanyCreationSingularDisplay();
+                CompanyCreationSingularDisplay companyCreationSingularDisplay = new CompanyCreationSingularDisplay(stage);
                 layout.setCenter(companyCreationSingularDisplay.getLayout());
+                IntuitionLockEvent.fireEvent(stage, new IntuitionLockEvent(null, null, IntuitionLockEvent.LOCK_CHANGED_ROOT_EVENT, false));
             }
         });
 
@@ -138,63 +129,22 @@ public class IndexScreen extends IScene {
         // Start background db sync
         Thread asyncDbSync = new Thread(new DatabaseBackgroundSyncAsync(this.stage, searchField), "async-db-sync");
         asyncDbSync.start();
+
+        scene.addEventHandler(IntuitionLockEvent.LOCK_CHANGED_EVENT, new EventHandler<IntuitionLockEvent>() {
+            @Override
+            public void handle(IntuitionLockEvent event) {
+                System.out.println("Event handled");
+
+                if (event.newLockState() == true) {
+                    searchField.setDisable(false);
+                    CompanyContainer.getTableStructure().setDisable(false);
+                } else if (event.newLockState() == false) {
+                    searchField.setDisable(true);
+                    CompanyContainer.getTableStructure().setDisable(true);
+                }
+            }
+        });
     }
-
-    /*
-    private Pane getCompanyDisplay(Company company) {
-        VBox layout = new VBox(0);
-        layout.getStyleClass().add("company-display");
-        layout.setStyle("-fx-background-color: #2f3d50; -fx-padding: 0 0 0 0; -fx-background-insets: 0 0 0 0;");
-
-        VBox paddingTopContent = new VBox(0);
-        paddingTopContent.setId("padding-head");
-
-        BorderPane lockPane = new BorderPane();
-        //Lock lock = new Lock();
-        //lock.getLabel().setId("lock");
-
-        //lockPane.setRight(lock.getLabel());
-
-        // Body of display
-        VBox content = new VBox(2);
-
-        if (company != null) {
-            // Company name
-            Label companyNameLabel = new Label(company.getName());
-            companyNameLabel.setId("label-title");
-
-            // Phone number
-            HBox companyPhoneNumberPane = new HBox(5);
-            companyPhoneNumberPane.setId("phone-number-box");
-            //companyPhoneNumberPane.setStyle("-fx-text-fill: #ffffff; -fx-font-family: 'Open Sans'; -fx-font-weight: 300; -fx-padding: 5 0 0 35; -fx-font-size: 15px;");
-
-            Label companyPhoneNumberPrefixLabel = new Label(String.format("+%s%s", company.getPhoneNumberPrefix(), company.getPhoneNumberCountryCallingCode()));
-            companyPhoneNumberPrefixLabel.getStyleClass().add("text-label");
-
-            Label companyPhoneNumberLabel = new Label(company.getPhoneNumber());
-            companyPhoneNumberLabel.getStyleClass().add("text-label");
-
-            companyPhoneNumberPane.getChildren().addAll(companyPhoneNumberPrefixLabel,companyPhoneNumberLabel);
-
-            // Email
-
-            Label companyEmailLabel = new Label(company.getEmail());
-            FlowPane companyEmailPane = new FlowPane();
-            companyEmailPane.getStyleClass().add("label-box");
-            companyEmailLabel.getStyleClass().add("text-label");
-
-            companyEmailPane.getChildren().add(companyEmailLabel);
-
-
-            content.getChildren().addAll(companyNameLabel, companyPhoneNumberPane, companyEmailPane);
-        }
-
-        layout.getChildren().addAll(paddingTopContent, lockPane, content);
-
-        return layout;
-    }
-
-    */
 
     private void setTextFieldWidthProperly(TextField value) {
         value.textProperty().addListener(new ChangeListener<String>() {
@@ -253,5 +203,76 @@ public class IndexScreen extends IScene {
 
 
         return companiesTable;
+    }
+
+    public static class Button {
+        private javafx.scene.control.Button button;
+
+        public Button(String buttonText) {
+            button = new javafx.scene.control.Button(buttonText);
+            button.getStyleClass().add("button");
+
+            button.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    button.getStyleClass().clear();
+                    button.getStyleClass().add("button-entered");
+                }
+            });
+
+            button.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    button.getStyleClass().clear();
+                    button.getStyleClass().add("button-pressed");
+                }
+            });
+
+            button.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    button.getStyleClass().clear();
+                    button.getStyleClass().add("button-released");
+                }
+            });
+
+            button.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    button.getStyleClass().clear();
+                    button.getStyleClass().add("button");
+                }
+            });
+
+            button.addEventHandler(MouseEvent.ANY, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    /*
+                    for (int i = 0; i < button.getStyleClass().size(); i++) {
+                        System.out.println(button.getStyleClass().get(i));
+                    }
+                    */
+
+                }
+            });
+        }
+
+        public javafx.scene.control.Button getButton() {
+            return button;
+        }
+
+        public void addButtonHandler(ButtonHandler type) {
+            button.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    type.handle();
+                }
+            });
+        }
+
+        }
+
+    public interface ButtonHandler  {
+        void handle();
     }
 }

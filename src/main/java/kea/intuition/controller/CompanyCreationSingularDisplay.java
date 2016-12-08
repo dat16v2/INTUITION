@@ -1,11 +1,15 @@
 package kea.intuition.controller;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import kea.intuition.IntuitionLockEvent;
+import kea.intuition.data.CompanyContainer;
 import kea.intuition.data.ModifiedValues;
 import kea.intuition.model.Company;
 
@@ -13,11 +17,13 @@ public class CompanyCreationSingularDisplay {
     private Pane layout;
     private Company company;
     private ModifiedValues modifiedValues;
+    private Stage stage;
 
-    public CompanyCreationSingularDisplay() {
+    public CompanyCreationSingularDisplay(Stage stage) {
         this.layout = new VBox(0);
         this.company = new Company();
         this.modifiedValues = new ModifiedValues();
+        this.stage = stage;
         setLayout();
     }
 
@@ -61,7 +67,33 @@ public class CompanyCreationSingularDisplay {
 
         companyEmail.getChildren().addAll(companyEmailLabel, getModifiedValues().getCompanyEmailField());
 
-        content.getChildren().addAll(companyName, companyPhoneNumber, companyEmail);
+        // Buttons
+        HBox buttonsPane = new HBox(5);
+        buttonsPane.setId("button-pane");
+
+        IndexScreen.Button cancelButton = new IndexScreen.Button("Cancel");
+        cancelButton.addButtonHandler(new IndexScreen.ButtonHandler() {
+            @Override
+            public void handle() {
+                IntuitionLockEvent.fireEvent(stage, new IntuitionLockEvent(null, null, IntuitionLockEvent.LOCK_CHANGED_ROOT_EVENT, true));
+                Company company = (Company) CompanyContainer.getTableStructure().getSelectionModel().getSelectedItem();
+                CompanyContainer.getTableStructure().getSelectionModel().clearSelection();
+                CompanyContainer.getTableStructure().getSelectionModel().select(company);
+                System.out.println("Cancel");
+            }
+        });
+
+        IndexScreen.Button submitButton = new IndexScreen.Button("Submit");
+        submitButton.addButtonHandler(new IndexScreen.ButtonHandler() {
+            @Override
+            public void handle() {
+                System.out.println("Submit");
+            }
+        });
+
+        buttonsPane.getChildren().addAll(cancelButton.getButton(), submitButton.getButton());
+
+        content.getChildren().addAll(companyName, companyPhoneNumber, companyEmail, buttonsPane);
 
         layout.getChildren().addAll(paddingTopContent, content);
     }

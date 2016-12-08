@@ -119,4 +119,35 @@
     -fx-text-fill: #ffffff;
     -fx-font-family: 'Open Sans';
   }
+
+  #button-pane {
+    -fx-padding: 20 0 0 35;
+
+    .button {
+      -fx-background-color: #2d3a4c;
+      -fx-text-fill: #ffffff;
+      -fx-padding: 5 3 5 3;
+    }
+
+    .button-entered {
+      -fx-background-color: #3b4e66;
+      -fx-text-fill: #ffffff;
+      -fx-padding: 5 3 5 3;
+      -fx-background-insets: 0 0 0 0;
+    }
+
+    .button-pressed {
+      -fx-background-color: #1e2632;
+      -fx-text-fill: #ffffff;
+      -fx-padding: 5 3 5 3;
+      -fx-background-insets: 0 0 0 0;
+    }
+
+    .button-released {
+      -fx-background-color: #3b4e66;
+      -fx-text-fill: #ffffff;
+      -fx-padding: 5 3 5 3;
+      -fx-background-insets: 0 0 0 0;
+    }
+  }
 }
