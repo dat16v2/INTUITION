@@ -48,6 +48,8 @@ public class SearchFieldHandler implements EventHandler<javafx.scene.input.KeyEv
             }
         });
 
-        CompanyContainer.getTableStructure().getSelectionModel().selectFirst();
+        if (!searchField.getText().isEmpty()) {
+            CompanyContainer.getTableStructure().getSelectionModel().selectFirst();
+        }
     }
 }

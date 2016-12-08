@@ -11,6 +11,7 @@ import kea.intuition.model.Note;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class CompanyContainer {
     private static ObservableList<Company> data;
@@ -60,7 +61,29 @@ public class CompanyContainer {
     }
 
     public static void addCompany(Company company) {
+        // Attempt to save to database
+        saveCompanyToDb(company);
+
+        // Add to local data store
         data.add(company);
+
+        CompanyContainer.getTableStructure().refresh(); // Refreshes table view
+    }
+
+    public static void saveCompanyToDb(Company company) {
+        PreparedStatement statement = null;
+
+        try {
+            statement = Intuition.Config.getDb().getConnection().prepareStatement("insert into business (business_name, business_phone, business_email) values (?, ?, ?)");
+            statement.setString(1, company.getName());
+            statement.setString(2, company.getPhoneNumber());
+            statement.setString(3, company.getEmail());
+
+            statement.execute();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            System.exit(1);
+        }
     }
 
     public static void editCompany(Company localCompany, Company newCompany) {
@@ -76,7 +99,25 @@ public class CompanyContainer {
         localCompany.setPhoneNumberCountryCallingCode(newCompany.getPhoneNumberCountryCallingCode());
         localCompany.setPhoneNumberPrefix(newCompany.getPhoneNumberPrefix());
 
+        int selected = CompanyContainer.getTableStructure().getSelectionModel().getSelectedIndex();
+
+        CompanyContainer.setFilteredList(new FilteredList<Company>(CompanyContainer.getData(), new Predicate<Company>() {
+            @Override
+            public boolean test(Company company) {
+                return true;
+            }
+        }));
+
+        CompanyContainer.setSortedList(new SortedList<Company>(CompanyContainer.getFilteredList()));
+
+        CompanyContainer.getSortedList().comparatorProperty().bind(CompanyContainer.getTableStructure().comparatorProperty());
+        CompanyContainer.getTableStructure().setItems(CompanyContainer.getSortedList());
+
+        SearchFieldHandler.manualHandle(Intuition.Screens.getIndexScreen().getSearchField());
+
         CompanyContainer.getTableStructure().refresh(); // Refreshes table view
+        CompanyContainer.getTableStructure().getSelectionModel().select(selected);
+        CompanyContainer.getTableStructure().getFocusModel().focus(CompanyContainer.getTableStructure().getSelectionModel().getSelectedIndex());
     }
 
     public static ObservableList<Company> getCompaniesFromDb() {

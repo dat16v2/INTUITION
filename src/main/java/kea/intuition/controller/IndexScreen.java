@@ -28,6 +28,7 @@ import java.util.function.Predicate;
 // ID: 1
 public class IndexScreen extends IScene {
     private int currentCompanySelection = 0;
+    private TextField searchField;
 
     public IndexScreen(Stage stage) {
         sceneId = 1;
@@ -52,7 +53,7 @@ public class IndexScreen extends IScene {
         VBox companiesTablePane = new VBox(0);
         companiesTablePane.setVgrow(CompanyContainer.getTableStructure(), Priority.ALWAYS);
 
-        TextField searchField = new TextField();
+        searchField = new TextField();
         Pane seachFieldPane = new StackPane();
         HBox searchFieldPaneItems = new HBox(0);
 
@@ -195,6 +196,7 @@ public class IndexScreen extends IScene {
                     currentCompanySelection = (newValue.getId() - 1);
                 }
 
+
                 if (newValue != null) {
                     if (!Tools.validateCompanyHash(newValue, CompanyContainer.getCurrentCompanyHash())) {
                         CompanySingularDisplay companySingularDisplay = new CompanySingularDisplay(newValue);
@@ -278,5 +280,9 @@ public class IndexScreen extends IScene {
 
     public interface ButtonHandler  {
         void handle();
+    }
+
+    public TextField getSearchField() {
+        return searchField;
     }
 }

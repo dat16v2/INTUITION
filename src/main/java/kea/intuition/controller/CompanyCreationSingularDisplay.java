@@ -87,6 +87,13 @@ public class CompanyCreationSingularDisplay {
         submitButton.addButtonHandler(new IndexScreen.ButtonHandler() {
             @Override
             public void handle() {
+                Company company = new Company();
+
+                company.setName(getModifiedValues().getCompanyNameField().getText());
+                company.setPhoneNumber(getModifiedValues().getCompanyPhoneNumberField().getText());
+                company.setEmail(getModifiedValues().getCompanyEmailField().getText());
+
+                CompanyContainer.addCompany(company);
                 System.out.println("Submit");
             }
         });

@@ -47,6 +47,7 @@ public class CompanySingularDisplay {
         if (company != null) {
             this.integrityHash = Tools.getCompanyHash(company);
             CompanyContainer.setCurrentCompanyHash(company.getHash());
+            System.out.printf("Setting new company hash(%s): %s\n", company.getName(),CompanyContainer.getCurrentCompanyHash());
         }
         setModifiedValues(new ModifiedValues());
         setLockedLayout();

@@ -34,7 +34,6 @@ public class DatabaseBackgroundSyncAsync implements Runnable {
 
             if (Intuition.Config.isDbLock()) {
                 // Update local cache of db.
-                System.out.println("Updating.");
                 CompanyContainer.setData(CompanyContainer.getCompaniesFromDb());
                 Platform.runLater(new updateView());
             }
@@ -63,6 +62,7 @@ public class DatabaseBackgroundSyncAsync implements Runnable {
 
             SearchFieldHandler.manualHandle(searchField);
 
+            CompanyContainer.getTableStructure().refresh();
             CompanyContainer.getTableStructure().getSelectionModel().select(selected);
             CompanyContainer.getTableStructure().getFocusModel().focus(CompanyContainer.getTableStructure().getSelectionModel().getSelectedIndex());
         }

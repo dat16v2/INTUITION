@@ -53,6 +53,7 @@ public class Lock {
                         newCompany.setPhoneNumber(companySingularDisplay.getModifiedValues().getCompanyPhoneNumberField().getText());
                         newCompany.setEmail(companySingularDisplay.getModifiedValues().getCompanyEmailField().getText());
 
+
                         if (!Tools.validateCompanyHash(newCompany,companySingularDisplay.getIntegrityHash())) {
                             System.out.println("Changed in data detected. Proceeding to save changes.");
                             CompanyContainer.editCompany(companySingularDisplay.getCompany(), newCompany);
