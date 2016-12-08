@@ -5,6 +5,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import kea.intuition.Tools;
 import kea.intuition.data.Lock;
+import kea.intuition.data.ModifiedValues;
 import kea.intuition.model.Company;
 
 public class CompanySingularDisplay {
@@ -28,36 +29,6 @@ public class CompanySingularDisplay {
 
     public void setModifiedValues(ModifiedValues modifiedValues) {
         this.modifiedValues = modifiedValues;
-    }
-
-    public static class ModifiedValues {
-        private TextField companyNameField;
-        private TextField companyPhoneNumberField;
-        private TextField companyEmailField;
-
-        public TextField getCompanyNameField() {
-            return companyNameField;
-        }
-
-        public void setCompanyNameField(TextField companyNameField) {
-            this.companyNameField = companyNameField;
-        }
-
-        public TextField getCompanyPhoneNumberField() {
-            return companyPhoneNumberField;
-        }
-
-        public void setCompanyPhoneNumberField(TextField companyPhoneNumberField) {
-            this.companyPhoneNumberField = companyPhoneNumberField;
-        }
-
-        public TextField getCompanyEmailField() {
-            return companyEmailField;
-        }
-
-        public void setCompanyEmailField(TextField companyEmailField) {
-            this.companyEmailField = companyEmailField;
-        }
     }
 
     public Company getCompany() {

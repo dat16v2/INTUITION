@@ -19,6 +19,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import kea.intuition.Intuition;
+import kea.intuition.IntuitionLockEvent;
 import kea.intuition.Tools;
 import kea.intuition.data.CompanyContainer;
 import kea.intuition.data.DatabaseBackgroundSyncAsync;
@@ -58,10 +59,13 @@ public class IndexScreen extends IScene {
         Pane seachFieldPane = new StackPane();
         HBox searchFieldPaneItems = new HBox(0);
 
+        // Search field
+
         searchFieldPaneItems.setAlignment(Pos.CENTER);
         seachFieldPane.setId("search-field");
         searchField.getStyleClass().add("input-field");
 
+        // Add new company button
         Label addSignLabel = new Label("+");
         addSignLabel.setId("add-sign-label");
 
@@ -93,6 +97,15 @@ public class IndexScreen extends IScene {
             }
         });
 
+        addSignLabel.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                IntuitionLockEvent.fireEvent(stage, new IntuitionLockEvent(null, null, IntuitionLockEvent.LOCK_CHANGED_EVENT, false));
+                CompanyCreationSingularDisplay companyCreationSingularDisplay = new CompanyCreationSingularDisplay();
+                layout.setCenter(companyCreationSingularDisplay.getLayout());
+            }
+        });
+
 
         CompanyContainer.setFilteredList(new FilteredList<Company>(CompanyContainer.getData(), new Predicate<Company>() {
             @Override
@@ -100,6 +113,8 @@ public class IndexScreen extends IScene {
                 return true;
             }
         }));
+
+        // Add sorting to search field
 
         SearchFieldHandler searchFieldHandler = new SearchFieldHandler(searchField);
         searchField.addEventHandler(KeyEvent.KEY_RELEASED, searchFieldHandler);
