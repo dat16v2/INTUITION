@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import kea.intuition.Intuition;
 import kea.intuition.Tools;
 import kea.intuition.data.CompanyContainer;
 import kea.intuition.data.Lock;
@@ -125,6 +126,7 @@ public class CompanySingularDisplay {
             public void handle(MouseEvent event) {
                 if( !textArea.getText().equals("") ) {
                     note.setCompanyId(companyID);
+                    note.setUserId(Intuition.Config.getUSER().getId());
                     note.setComment(textArea.getText());
 
                     CompanyContainer.saveExistingNotesToDb(note);
