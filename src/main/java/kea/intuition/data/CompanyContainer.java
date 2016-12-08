@@ -7,6 +7,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.scene.control.TableView;
 import kea.intuition.Intuition;
 import kea.intuition.model.Company;
+import kea.intuition.model.Note;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -58,6 +59,7 @@ public class CompanyContainer {
         // Attempt to save to database
 
         saveExistingCompanyToDb(newCompany);
+        saveExistingNotesToDb(newCompany);
 
 
         // Refresh local data
@@ -130,6 +132,22 @@ public class CompanyContainer {
         }
 
         return company;
+    }
+
+    public static void saveExistingNotesToDb(Company company)
+    {
+        PreparedStatement statement = null;
+
+        try {
+            statement = Intuition.Config.getDb().getConnection().prepareStatement("INSERT note set note_comment = ?, note_timestamp = ?, note_reminder = ? where business_id = ?");
+            statement.setString(1, String.valueOf(company.getNotes()));
+            statement.setInt(2, 3);
+            statement.setInt(3, 999);
+            statement.setInt(4, company.getId());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void saveExistingCompanyToDb(Company company) {

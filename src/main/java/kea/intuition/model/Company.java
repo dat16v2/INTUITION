@@ -1,6 +1,11 @@
 package kea.intuition.model;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Company {
+    private ArrayList<Note> notes;
     private int id;
     private String name;
     private String email;
@@ -15,13 +20,16 @@ public class Company {
         setPhoneNumber("");
         setPhoneNumberPrefix("00");
         setPhoneNumberCountryCallingCode("45");
+        setNotes(new ArrayList<Note>());
     }
 
-    public Company(int id, String name, String email, String phoneNumberPrefix, String phoneNumberCountryCallingCode, String phoneNumber) {
+    public Company(int id, String name, String email, String phoneNumberPrefix, String phoneNumberCountryCallingCode, String phoneNumber, ArrayList<Note> notes) {
         setId(id);
         setName(name);
         setEmail(email);
         setPhoneNumber(phoneNumber);
+        setNotes(notes);
+
 
         if (phoneNumberPrefix.equals("-1")) {
             setPhoneNumberPrefix("00");
@@ -34,6 +42,14 @@ public class Company {
         } else {
             setPhoneNumberCountryCallingCode(phoneNumberCountryCallingCode);
         }
+    }
+
+    public ArrayList<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(ArrayList<Note> notes) {
+        this.notes = notes;
     }
 
     public int getId() {
