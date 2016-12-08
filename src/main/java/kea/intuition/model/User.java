@@ -55,9 +55,10 @@ public class User {
                     triedValidUsername = true;
 
                     if( password.equals(rs.getString(3)) ) {
-                        logAttempt( rs.getInt(1), true );
+                        int id = rs.getInt(1);
+                        logAttempt( id, true );
 
-                        Intuition.Config.setUSER( new User(rs.getInt(1),rs.getString(2),rs.getString(3)) );
+                        Intuition.Config.setUSER( new User(id, username, password) );
 
                         return true;
                     }

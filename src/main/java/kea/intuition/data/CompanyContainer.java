@@ -138,9 +138,10 @@ public class CompanyContainer {
         PreparedStatement statement = null;
 
         try {
-            statement = Intuition.Config.getDb().getConnection().prepareStatement("INSERT INTO note (business_id, note_comment) VALUES (?, ?)");
+            statement = Intuition.Config.getDb().getConnection().prepareStatement("INSERT INTO note (business_id, note_login_id, note_comment) VALUES (?, ?, ?)");
             statement.setInt(1, note.getCompanyId());
-            statement.setString(2, note.getComment());
+            statement.setInt(2, note.getUserId());
+            statement.setString(3, note.getComment());
 
             statement.executeUpdate();
         } catch (SQLException e) {

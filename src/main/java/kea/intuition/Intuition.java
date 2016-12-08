@@ -59,9 +59,7 @@ public class Intuition {
             return USER;
         }
 
-        public static void setUSER(User user) {
-            Config.USER = user;
-        }
+        public static void setUSER(User user) { Config.USER = user; }
     }
 
     public static class Screens {
