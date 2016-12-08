@@ -112,6 +112,7 @@ public class CompanySingularDisplay {
 
     private VBox getCompanyNotes() {
         VBox vBox = new VBox(5);
+        vBox.setId("comments-box");
         ArrayList<Note> notes = company.getNotes();
 
         for (int i = 0; i < notes.size(); i++) {
@@ -119,7 +120,9 @@ public class CompanySingularDisplay {
             VBox innerVBox = new VBox(5);
 
             Label infoLabel = new Label("Posted by " + Intuition.Config.getDb().getDbUsername( note.getUserId()) + " | On " + Tools.convertTime(note.getTimestamp()));
+            infoLabel.getStyleClass().add("label-default");
             Label commentLabel = new Label("Comment: " + note.getComment());
+            commentLabel.getStyleClass().add("label-default");
 
             innerVBox.getChildren().addAll(infoLabel, commentLabel);
 
@@ -131,6 +134,7 @@ public class CompanySingularDisplay {
 
     private VBox noteAdder(int companyID) {
         VBox vBox = new VBox(5);
+        vBox.setId("comment-box-pane");
         TextArea textArea = new TextArea();
         textArea.setId("comment-box");
         Button addNoteButton = new Button("Submit Note");

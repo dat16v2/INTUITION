@@ -127,9 +127,18 @@
 .company-display #lock {
   -fx-text-fill: #ffffff;
   -fx-font-family: 'Open Sans'; }
+.company-display #comments-box {
+  -fx-text-fill: #ffffff;
+  -fx-padding: 20 0 0 35; }
+  .company-display #comments-box .label-default {
+    -fx-text-fill: #ffffff; }
+  .company-display #comments-box .button {
+    -fx-padding: 20 0 0 35; }
+.company-display #comment-box-pane {
+  -fx-padding: 20 0 0 35; }
 .company-display #comment-box {
   -fx-pref-width: 100px;
-  -fx-max-width: 350px; }
+  -fx-max-width: 300px; }
 .company-display #button-pane {
   -fx-padding: 20 0 0 35; }
   .company-display #button-pane .button {
