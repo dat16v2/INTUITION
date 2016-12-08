@@ -5,17 +5,28 @@ import kea.intuition.Intuition;
 import java.sql.ResultSet;
 
 public class User {
+    private int id;
     private String username;
     private String password;
 
-    public User(String username, String password) {
+    public User(int id, String username, String password) {
+        setId(id);
         setUsername( username );
         setPassword( password );
     }
 
     public User() {
+        setId( -1 );
         setUsername( "" );
         setPassword( "" );
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -45,6 +56,9 @@ public class User {
 
                     if( password.equals(rs.getString(3)) ) {
                         logAttempt( rs.getInt(1), true );
+
+                        Intuition.Config.setUSER( new User(rs.getInt(1),rs.getString(2),rs.getString(3)) );
+
                         return true;
                     }
 

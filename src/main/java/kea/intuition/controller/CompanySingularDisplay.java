@@ -1,12 +1,15 @@
 package kea.intuition.controller;
 
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.event.EventHandler;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import kea.intuition.Tools;
+import kea.intuition.data.CompanyContainer;
 import kea.intuition.data.Lock;
 import kea.intuition.data.ModifiedValues;
 import kea.intuition.model.Company;
+import kea.intuition.model.Note;
 
 public class CompanySingularDisplay {
     private Pane layout;
@@ -82,7 +85,6 @@ public class CompanySingularDisplay {
             companyPhoneNumberPane.getChildren().addAll(companyPhoneNumberPrefixLabel,companyPhoneNumberLabel);
 
             // Email
-
             Label companyEmailLabel = new Label(company.getEmail());
             FlowPane companyEmailPane = new FlowPane();
             companyEmailPane.getStyleClass().add("label-box");
@@ -90,11 +92,54 @@ public class CompanySingularDisplay {
 
             companyEmailPane.getChildren().add(companyEmailLabel);
 
+            // Comment
+            VBox getCompanyNotes = getCompanyNotes(company);
 
-            content.getChildren().addAll(companyNameLabel, companyPhoneNumberPane, companyEmailPane);
+            VBox noteAdder = noteAdder(company.getId());
+
+            content.getChildren().addAll(companyNameLabel, companyPhoneNumberPane, companyEmailPane, getCompanyNotes, noteAdder);
         }
 
         layout.getChildren().addAll(paddingTopContent, lockPane, content);
+    }
+
+    private VBox getCompanyNotes(Company company) {
+        VBox vBox = new VBox(5);
+
+
+
+        return vBox;
+    }
+
+    private VBox noteAdder(int companyID) {
+        VBox vBox = new VBox(5);
+        TextArea textArea = new TextArea();
+        Button addNoteButton = new Button("Submit Note");
+
+        Note note = new Note();
+
+        vBox.getChildren().addAll(textArea, addNoteButton);
+
+        addNoteButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if( !textArea.getText().equals("") ) {
+                    note.setCompanyId(companyID);
+                    note.setComment(textArea.getText());
+
+                    CompanyContainer.saveExistingNotesToDb(note);
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Success");
+                    alert.setHeaderText("Success");
+                    alert.setContentText("The note was inserted into the database!");
+
+                    alert.showAndWait();
+                }
+            }
+        });
+
+        return vBox;
     }
 
     public void setUnlockedLayout() {

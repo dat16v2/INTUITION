@@ -6,6 +6,13 @@ public class Note {
     private String comment;
     private long timestamp;
 
+    public Note() {
+        setId(-1);
+        setCompanyId(-1);
+        setComment("");
+        setTimestamp(0);
+    }
+
     public Note(int id, int companyId, String comment, long timestamp) {
         setId(id);
         setCompanyId(companyId);

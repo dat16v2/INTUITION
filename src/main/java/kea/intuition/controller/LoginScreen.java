@@ -59,7 +59,7 @@ public class LoginScreen extends IScene{
             @Override
             public void handle(KeyEvent event) {
                 if (event.getCode() == KeyCode.ENTER) {
-                    User user = new User( usernameInput.getText(), passwordInput.getText() );
+                    User user = new User( -1, usernameInput.getText(), passwordInput.getText() );
                     login( user );
                 }
             }
@@ -69,7 +69,7 @@ public class LoginScreen extends IScene{
             @Override
             public void handle(KeyEvent event) {
                 if (event.getCode() == KeyCode.ENTER) {
-                    User user = new User( usernameInput.getText(), passwordInput.getText() );
+                    User user = new User( -1, usernameInput.getText(), passwordInput.getText() );
                     login( user );
                 }
             }
@@ -110,7 +110,7 @@ public class LoginScreen extends IScene{
         loginButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                User user = new User( usernameInput.getText(), passwordInput.getText() );
+                User user = new User( -1, usernameInput.getText(), passwordInput.getText() );
                 login( user );
             }
         });

@@ -21,6 +21,7 @@ public class Intuition {
         private static boolean dbLock = false;
         static Os os;
         private static Database db;
+        private static User USER;
 
         public static boolean isDbLock() {
             return dbLock;
@@ -52,6 +53,14 @@ public class Intuition {
 
         public static int getMINWIDTH() {
             return MINWIDTH;
+        }
+
+        public static User getUSER() {
+            return USER;
+        }
+
+        public static void setUSER(User user) {
+            Config.USER = user;
         }
     }
 
