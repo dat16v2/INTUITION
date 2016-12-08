@@ -9,6 +9,7 @@ public class IntuitionLockEvent extends Event {
 
     public static final EventType<IntuitionLockEvent> ROOT_EVENT = new EventType<>(Event.ANY, "INTUITION_LOCK_EVENT_ROOT_EVENT");
     public static final EventType<IntuitionLockEvent> LOCK_CHANGED_EVENT = new EventType<>(ROOT_EVENT, "LOCK_CHANGED_EVENT");
+    public static final EventType<IntuitionLockEvent> LOCK_CHANGED_ROOT_EVENT = new EventType<>(ROOT_EVENT, "LOCK_CHANGED_ROOT_EVENT");
 
     private IntuitionLockEvent intuitionLockEvent;
     private boolean newLockState;
