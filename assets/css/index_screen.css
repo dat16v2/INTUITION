@@ -36,6 +36,29 @@
 #body {
   -fx-background-color: #252f3e; }
 
+#add-sign-label {
+  -fx-text-fill: #ffffff;
+  -fx-font-family: 'Open Sans';
+  -fx-font-weight: 300;
+  -fx-font-size: 22px;
+  -fx-padding: 0 10 0 10; }
+
+#add-sign-label-hover {
+  -fx-text-fill: #ffffff;
+  -fx-font-family: 'Open Sans';
+  -fx-font-weight: 300;
+  -fx-font-size: 22px;
+  -fx-padding: 0 10 0 10;
+  -fx-background-color: #354358; }
+
+#add-sign-label-clicked {
+  -fx-text-fill: #ffffff;
+  -fx-font-family: 'Open Sans';
+  -fx-font-weight: 300;
+  -fx-font-size: 22px;
+  -fx-padding: 0 10 0 10;
+  -fx-background-color: #303c4f; }
+
 .input-field {
   -fx-background-color: #232d3b;
   -fx-text-fill: #fffbff;

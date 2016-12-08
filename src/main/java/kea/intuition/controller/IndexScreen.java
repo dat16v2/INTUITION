@@ -6,12 +6,15 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -53,8 +56,43 @@ public class IndexScreen extends IScene {
 
         TextField searchField = new TextField();
         Pane seachFieldPane = new StackPane();
+        HBox searchFieldPaneItems = new HBox(0);
+
+        searchFieldPaneItems.setAlignment(Pos.CENTER);
         seachFieldPane.setId("search-field");
         searchField.getStyleClass().add("input-field");
+
+        Label addSignLabel = new Label("+");
+        addSignLabel.setId("add-sign-label");
+
+        addSignLabel.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                addSignLabel.setId("add-sign-label-hover");
+            }
+        });
+
+        addSignLabel.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                addSignLabel.setId("add-sign-label");
+            }
+        });
+
+        addSignLabel.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                addSignLabel.setId("add-sign-label-clicked");
+            }
+        });
+
+        addSignLabel.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                addSignLabel.setId("add-sign-label-hover");
+            }
+        });
+
 
         CompanyContainer.setFilteredList(new FilteredList<Company>(CompanyContainer.getData(), new Predicate<Company>() {
             @Override
@@ -71,7 +109,8 @@ public class IndexScreen extends IScene {
         CompanyContainer.getSortedList().comparatorProperty().bind(CompanyContainer.getTableStructure().comparatorProperty());
         CompanyContainer.getTableStructure().setItems(CompanyContainer.getSortedList());
 
-        seachFieldPane.getChildren().add(searchField);
+        searchFieldPaneItems.getChildren().addAll(searchField, addSignLabel);
+        seachFieldPane.getChildren().add(searchFieldPaneItems);
         companiesTablePane.getChildren().addAll(seachFieldPane, CompanyContainer.getTableStructure());
 
         layout.setLeft(companiesTablePane);
