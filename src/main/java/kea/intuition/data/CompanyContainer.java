@@ -9,9 +9,8 @@ import kea.intuition.Intuition;
 import kea.intuition.model.Company;
 import kea.intuition.model.Note;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class CompanyContainer {
     private static ObservableList<Company> data;
@@ -92,6 +91,7 @@ public class CompanyContainer {
                 company.setName(rs.getString(2));
                 company.setPhoneNumber(rs.getString(3));
                 company.setEmail(rs.getString(4));
+                company.setNotes();
                 data.add(company);
             }
         } catch (SQLException exception) {
@@ -131,6 +131,45 @@ public class CompanyContainer {
         }
 
         return company;
+    }
+
+    public static ArrayList<Note> getCompanyNotesFromDb(int id) {
+        ResultSet rs = null;
+        ArrayList<Note> list = new ArrayList<Note>();
+
+        PreparedStatement statement = null;
+
+        // Prepare SQL statement
+        try {
+            statement = Intuition.Config.getDb().getConnection().prepareStatement("select * from note where business_id = ? ORDER BY note_id DESC");
+            statement.setInt(1, id);
+
+            rs = statement.executeQuery();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            System.exit(1);
+        }
+
+        try {
+            while (rs.next()) {
+                Note note = new Note();
+
+                note.setId(rs.getInt(1));
+                note.setCompanyId(rs.getInt(2));
+                note.setUserId(rs.getInt(3));
+                note.setComment(rs.getString(4));
+
+                Timestamp ts = rs.getTimestamp(5);
+                note.setTimestamp(ts.getTime());
+
+                list.add(note);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.exit(1);
+        }
+
+        return list;
     }
 
     public static void saveExistingNotesToDb(Note note)

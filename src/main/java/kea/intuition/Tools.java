@@ -10,7 +10,10 @@ import javafx.scene.input.MouseEvent;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.Date;
 import java.util.Properties;
 import kea.intuition.controller.IScene;
 import kea.intuition.model.Company;
@@ -77,5 +80,12 @@ public class Tools {
 
     public static boolean validateCompanyHash(Company company, String hash) {
         return hash.equals(getCompanyHash(company));
+    }
+
+    //Convert date
+    public static String convertTime(long time){
+        Date date = new Date(time);
+        Format format = new SimpleDateFormat("MMM d, yyyy 'at' HH:mm:ss");
+        return format.format(date);
     }
 }

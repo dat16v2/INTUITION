@@ -1,8 +1,7 @@
 package kea.intuition.model;
 
-import java.lang.reflect.Array;
+import kea.intuition.data.CompanyContainer;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Company {
     private ArrayList<Note> notes;
@@ -20,15 +19,13 @@ public class Company {
         setPhoneNumber("");
         setPhoneNumberPrefix("00");
         setPhoneNumberCountryCallingCode("45");
-        setNotes(new ArrayList<Note>());
     }
 
-    public Company(int id, String name, String email, String phoneNumberPrefix, String phoneNumberCountryCallingCode, String phoneNumber, ArrayList<Note> notes) {
+    public Company(int id, String name, String email, String phoneNumberPrefix, String phoneNumberCountryCallingCode, String phoneNumber) {
         setId(id);
         setName(name);
         setEmail(email);
         setPhoneNumber(phoneNumber);
-        setNotes(notes);
 
 
         if (phoneNumberPrefix.equals("-1")) {
@@ -48,8 +45,9 @@ public class Company {
         return notes;
     }
 
-    public void setNotes(ArrayList<Note> notes) {
-        this.notes = notes;
+    public void setNotes() {
+        System.out.println(getId());
+        this.notes = CompanyContainer.getCompanyNotesFromDb( getId() );
     }
 
     public int getId() {

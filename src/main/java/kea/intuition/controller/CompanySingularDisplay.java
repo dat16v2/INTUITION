@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import java.util.ArrayList;
 import kea.intuition.Intuition;
 import kea.intuition.Tools;
 import kea.intuition.data.CompanyContainer;
@@ -94,7 +95,7 @@ public class CompanySingularDisplay {
             companyEmailPane.getChildren().add(companyEmailLabel);
 
             // Comment
-            VBox getCompanyNotes = getCompanyNotes(company);
+            VBox getCompanyNotes = getCompanyNotes();
 
             VBox noteAdder = noteAdder(company.getId());
 
@@ -104,10 +105,21 @@ public class CompanySingularDisplay {
         layout.getChildren().addAll(paddingTopContent, lockPane, content);
     }
 
-    private VBox getCompanyNotes(Company company) {
+    private VBox getCompanyNotes() {
         VBox vBox = new VBox(5);
+        ArrayList<Note> notes = company.getNotes();
 
+        for (int i = 0; i < notes.size(); i++) {
+            Note note = notes.get(i);
+            VBox innerVBox = new VBox(5);
 
+            Label infoLabel = new Label("Posted by " + Intuition.Config.getDb().getDbUsername( note.getUserId()) + " | On " + Tools.convertTime(note.getTimestamp()));
+            Label commentLabel = new Label("Comment: " + note.getComment());
+
+            innerVBox.getChildren().addAll(infoLabel, commentLabel);
+
+            vBox.getChildren().add(innerVBox);
+        }
 
         return vBox;
     }

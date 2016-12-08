@@ -65,18 +65,21 @@ public class Database {
         }
     }
 
-    public ResultSet select( String select, String table ) {
-        try {
-            ResultSet resultSet = statement.executeQuery("SELECT " + select + " FROM " + table + "");
+    public String getDbUsername(int userId) {
+        String str = "";
 
-            return resultSet;
+        try {
+            ResultSet resultSet = statement.executeQuery("SELECT login_username FROM login WHERE login_id = " + userId);
+            while (resultSet.next()) {
+                str = resultSet.getString(1);
+            }
         } catch(SQLException e) {
             System.err.print(e.getMessage());
         } catch(Exception e) {
             System.err.print(e.getMessage());
         }
 
-        return null;
+        return str;
     }
 
     public ResultSet select( String select, String table, String where ) {
