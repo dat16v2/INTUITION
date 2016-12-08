@@ -19,6 +19,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import kea.intuition.Intuition;
+import kea.intuition.IntuitionLockEvent;
 import kea.intuition.Tools;
 import kea.intuition.data.CompanyContainer;
 import kea.intuition.data.DatabaseBackgroundSyncAsync;
@@ -99,6 +100,7 @@ public class IndexScreen extends IScene {
         addSignLabel.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                IntuitionLockEvent.fireEvent(stage, new IntuitionLockEvent(null, null, IntuitionLockEvent.LOCK_CHANGED_EVENT, false));
                 CompanyCreationSingularDisplay companyCreationSingularDisplay = new CompanyCreationSingularDisplay();
                 layout.setCenter(companyCreationSingularDisplay.getLayout());
             }

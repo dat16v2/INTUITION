@@ -8,6 +8,9 @@ public class IntuitionLockEventHandler implements EventHandler<IntuitionLockEven
     public void handle(IntuitionLockEvent event) {
         if (event.newLockState() == true) {
             Intuition.Config.setDbLock(true);
+
+
+
         } else if (event.newLockState() == false) {
             Intuition.Config.setDbLock(false);
         }
