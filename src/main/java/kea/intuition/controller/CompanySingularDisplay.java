@@ -46,6 +46,7 @@ public class CompanySingularDisplay {
         this.layout = new VBox(0);
         if (company != null) {
             this.integrityHash = Tools.getCompanyHash(company);
+            CompanyContainer.setCurrentCompanyHash(company.getHash());
         }
         setModifiedValues(new ModifiedValues());
         setLockedLayout();

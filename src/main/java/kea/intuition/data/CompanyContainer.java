@@ -17,6 +17,15 @@ public class CompanyContainer {
     private static TableView tableStructure;
     private static FilteredList<Company> filteredList;
     private static SortedList<Company> sortedList;
+    private static String currentCompanyHash;
+
+    public static String getCurrentCompanyHash() {
+        return currentCompanyHash;
+    }
+
+    public static void setCurrentCompanyHash(String currentCompanyHash) {
+        CompanyContainer.currentCompanyHash = currentCompanyHash;
+    }
 
     public static FilteredList<Company> getFilteredList() {
         return filteredList;

@@ -195,9 +195,13 @@ public class IndexScreen extends IScene {
                     currentCompanySelection = (newValue.getId() - 1);
                 }
 
-                CompanySingularDisplay companySingularDisplay = new CompanySingularDisplay(newValue);
-                Pane companyDisplay = companySingularDisplay.getCompanyDisplay();
-                layout.setCenter(companyDisplay);
+                if (newValue != null) {
+                    if (!Tools.validateCompanyHash(newValue, CompanyContainer.getCurrentCompanyHash())) {
+                        CompanySingularDisplay companySingularDisplay = new CompanySingularDisplay(newValue);
+                        Pane companyDisplay = companySingularDisplay.getCompanyDisplay();
+                        layout.setCenter(companyDisplay);
+                    }
+                }
             }
         });
 

@@ -57,6 +57,7 @@ public class Lock {
                             System.out.println("Changed in data detected. Proceeding to save changes.");
                             CompanyContainer.editCompany(companySingularDisplay.getCompany(), newCompany);
                             companySingularDisplay.setIntegrityHash(Tools.getCompanyHash(newCompany));
+                            CompanyContainer.setCurrentCompanyHash(companySingularDisplay.getIntegrityHash());
                         } else {
                             System.out.println("No change has been detected. Unlocking.");
                         }
