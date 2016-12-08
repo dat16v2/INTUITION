@@ -65,6 +65,9 @@ public class CompanySingularDisplay {
 
         lockPane.setRight(lock.getLabel());
 
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
         // Body of display
         VBox content = new VBox(2);
 
@@ -102,7 +105,9 @@ public class CompanySingularDisplay {
             content.getChildren().addAll(companyNameLabel, companyPhoneNumberPane, companyEmailPane, getCompanyNotes, noteAdder);
         }
 
-        layout.getChildren().addAll(paddingTopContent, lockPane, content);
+        scrollPane.setContent(content);
+
+        layout.getChildren().addAll(paddingTopContent, lockPane, scrollPane);
     }
 
     private VBox getCompanyNotes() {
@@ -127,6 +132,7 @@ public class CompanySingularDisplay {
     private VBox noteAdder(int companyID) {
         VBox vBox = new VBox(5);
         TextArea textArea = new TextArea();
+        textArea.setId("comment-box");
         Button addNoteButton = new Button("Submit Note");
 
         Note note = new Note();

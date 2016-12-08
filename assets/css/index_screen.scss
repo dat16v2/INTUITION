@@ -61,6 +61,14 @@
     -fx-background-insets: 0 0 0 0;
   }
 
+  .scroll-pane > .viewport {
+    -fx-background-color: transparent;
+  }
+
+  .scroll-pane {
+    -fx-background-color: transparent;
+  }
+
   #padding-head {
     -fx-background-color: #252f3e;
     -fx-padding: 18 0 0 0;
@@ -118,6 +126,11 @@
   #lock {
     -fx-text-fill: #ffffff;
     -fx-font-family: 'Open Sans';
+  }
+
+  #comment-box {
+    -fx-pref-width: 100px;
+    -fx-max-width: 350px;
   }
 
   #button-pane {

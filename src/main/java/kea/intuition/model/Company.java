@@ -46,7 +46,6 @@ public class Company {
     }
 
     public void setNotes() {
-        System.out.println(getId());
         this.notes = CompanyContainer.getCompanyNotesFromDb( getId() );
     }
 
