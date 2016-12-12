@@ -5,6 +5,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import java.util.ArrayList;
+
+import javafx.stage.Stage;
 import kea.intuition.Intuition;
 import kea.intuition.Tools;
 import kea.intuition.data.CompanyContainer;
@@ -19,6 +21,7 @@ public class CompanySingularDisplay {
     private Company company;
     private ModifiedValues modifiedValues;
     private String integrityHash;
+    private Stage stage;
 
     public String getIntegrityHash() {
         return integrityHash;
@@ -40,7 +43,12 @@ public class CompanySingularDisplay {
         return company;
     }
 
-    public CompanySingularDisplay(Company company) {
+    public Stage getStage() {
+        return stage;
+    }
+
+    public CompanySingularDisplay(Company company, Stage stage) {
+        this.stage = stage;
         lock = new Lock(this);
         this.company = company;
         this.layout = new VBox(0);

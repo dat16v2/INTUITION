@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import kea.intuition.Intuition;
+import kea.intuition.IntuitionLockEvent;
 import kea.intuition.Tools;
 import kea.intuition.controller.CompanySingularDisplay;
 import kea.intuition.model.Company;
@@ -19,7 +20,12 @@ public class Lock {
 
     public void setLocked(boolean locked) {
         this.locked = locked;
-        Intuition.Config.setDbLock(locked);
+
+        if (Intuition.Screens.getIndexScreen() == null) {
+            Intuition.Config.setDbLock(locked);
+        } else {
+            IntuitionLockEvent.fireEvent(companySingularDisplay.getStage(), new IntuitionLockEvent(null, null, IntuitionLockEvent.LOCK_CHANGED_ROOT_EVENT, locked));
+        }
 
         if (this.locked) {
             label.setText("locked");

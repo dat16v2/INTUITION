@@ -95,6 +95,7 @@ public class CompanyCreationSingularDisplay {
 
                 CompanyContainer.addCompany(company);
                 System.out.println("Submit");
+                IntuitionLockEvent.fireEvent(stage, new IntuitionLockEvent(null, null, IntuitionLockEvent.LOCK_CHANGED_ROOT_EVENT, true));
             }
         });
 

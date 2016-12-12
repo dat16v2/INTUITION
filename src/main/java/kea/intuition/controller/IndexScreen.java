@@ -48,7 +48,7 @@ public class IndexScreen extends IScene {
 
         CompanyContainer.setTableStructure(getCompaniesTable());
 
-        CompanySingularDisplay companySingularDisplay = new CompanySingularDisplay((Company) CompanyContainer.getTableStructure().getItems().get(0));
+        CompanySingularDisplay companySingularDisplay = new CompanySingularDisplay((Company) CompanyContainer.getTableStructure().getItems().get(0), stage);
         Pane companyDisplay = companySingularDisplay.getCompanyDisplay();
         VBox companiesTablePane = new VBox(0);
         companiesTablePane.setVgrow(CompanyContainer.getTableStructure(), Priority.ALWAYS);
@@ -199,7 +199,7 @@ public class IndexScreen extends IScene {
 
                 if (newValue != null) {
                     if (!Tools.validateCompanyHash(newValue, CompanyContainer.getCurrentCompanyHash())) {
-                        CompanySingularDisplay companySingularDisplay = new CompanySingularDisplay(newValue);
+                        CompanySingularDisplay companySingularDisplay = new CompanySingularDisplay(newValue, stage);
                         Pane companyDisplay = companySingularDisplay.getCompanyDisplay();
                         layout.setCenter(companyDisplay);
                     }
