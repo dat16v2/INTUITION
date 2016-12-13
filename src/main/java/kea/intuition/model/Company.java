@@ -1,5 +1,6 @@
 package kea.intuition.model;
 
+import kea.intuition.Tools;
 import kea.intuition.data.CompanyContainer;
 import java.util.ArrayList;
 
@@ -46,7 +47,6 @@ public class Company {
     }
 
     public void setNotes() {
-        System.out.println(getId());
         this.notes = CompanyContainer.getCompanyNotesFromDb( getId() );
     }
 
@@ -110,5 +110,9 @@ public class Company {
         }
 
         return String.format("+%s%s %s", this.phoneNumberPrefix, this.phoneNumberCountryCallingCode, this.phoneNumber);
+    }
+
+    public String getHash() {
+        return Tools.getCompanyHash(this);
     }
 }

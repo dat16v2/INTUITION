@@ -84,6 +84,10 @@
   -fx-background-color: #2f3d50;
   -fx-padding: 0 0 0 0;
   -fx-background-insets: 0 0 0 0; }
+.company-display .scroll-pane > .viewport {
+  -fx-background-color: transparent; }
+.company-display .scroll-pane {
+  -fx-background-color: transparent; }
 .company-display #padding-head {
   -fx-background-color: #252f3e;
   -fx-padding: 18 0 0 0;
@@ -123,6 +127,18 @@
 .company-display #lock {
   -fx-text-fill: #ffffff;
   -fx-font-family: 'Open Sans'; }
+.company-display #comments-box {
+  -fx-text-fill: #ffffff;
+  -fx-padding: 20 0 0 35; }
+  .company-display #comments-box .label-default {
+    -fx-text-fill: #ffffff; }
+  .company-display #comments-box .button {
+    -fx-padding: 20 0 0 35; }
+.company-display #comment-box-pane {
+  -fx-padding: 20 0 0 35; }
+.company-display #comment-box {
+  -fx-pref-width: 100px;
+  -fx-max-width: 300px; }
 .company-display #button-pane {
   -fx-padding: 20 0 0 35; }
   .company-display #button-pane .button {

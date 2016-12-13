@@ -11,7 +11,7 @@ import kea.intuition.model.Company;
 import java.util.function.Predicate;
 
 public class DatabaseBackgroundSyncAsync implements Runnable {
-    private final long SLEEP_60_SECONDS = 1000 * 10;
+    private final long SLEEP_X_SECONDS = 1000 * 10;
     private Stage stage;
     private TextField searchField;
 
@@ -23,10 +23,10 @@ public class DatabaseBackgroundSyncAsync implements Runnable {
     @Override
     public void run() {
         while (true) {
-            System.out.printf("Sleeping %d secs.\n", (SLEEP_60_SECONDS / 1000));
+            System.out.printf("Sleeping %d secs.\n", (SLEEP_X_SECONDS / 1000));
             // Wait a minute before next repeat.
             try {
-                Thread.sleep(SLEEP_60_SECONDS);
+                Thread.sleep(SLEEP_X_SECONDS);
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
                 System.exit(1);
@@ -34,7 +34,6 @@ public class DatabaseBackgroundSyncAsync implements Runnable {
 
             if (Intuition.Config.isDbLock()) {
                 // Update local cache of db.
-                System.out.println("Updating.");
                 CompanyContainer.setData(CompanyContainer.getCompaniesFromDb());
                 Platform.runLater(new updateView());
             }
@@ -46,9 +45,8 @@ public class DatabaseBackgroundSyncAsync implements Runnable {
 
         @Override
         public void run() {
+            // Update the table view, various lists(filtering, sorting, etc..) and attach a new SearchFieldHandler to searchField.
             int selected = CompanyContainer.getTableStructure().getSelectionModel().getSelectedIndex();
-            //CompanyContainer.getTableStructure().setItems(CompanyContainer.getData());
-
             CompanyContainer.setFilteredList(new FilteredList<Company>(CompanyContainer.getData(), new Predicate<Company>() {
                 @Override
                 public boolean test(Company company) {
@@ -63,6 +61,7 @@ public class DatabaseBackgroundSyncAsync implements Runnable {
 
             SearchFieldHandler.manualHandle(searchField);
 
+            CompanyContainer.getTableStructure().refresh();
             CompanyContainer.getTableStructure().getSelectionModel().select(selected);
             CompanyContainer.getTableStructure().getFocusModel().focus(CompanyContainer.getTableStructure().getSelectionModel().getSelectedIndex());
         }

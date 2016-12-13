@@ -55,10 +55,20 @@
 }
 
 .company-display {
+  $primary-padding: 20 0 0 35;
+
   #root-display {
     -fx-background-color: #2f3d50;
     -fx-padding: 0 0 0 0;
     -fx-background-insets: 0 0 0 0;
+  }
+
+  .scroll-pane > .viewport {
+    -fx-background-color: transparent;
+  }
+
+  .scroll-pane {
+    -fx-background-color: transparent;
   }
 
   #padding-head {
@@ -81,7 +91,7 @@
     -fx-text-fill: #ffffff;
     -fx-font-family: 'Open Sans';
     -fx-font-weight: 300;
-    -fx-padding: 20 0 0 35;
+    -fx-padding: $primary-padding;
     -fx-font-size: 15px;
   }
 
@@ -120,8 +130,30 @@
     -fx-font-family: 'Open Sans';
   }
 
+  #comments-box {
+    -fx-text-fill: #ffffff;
+    -fx-padding: $primary-padding;
+
+    .label-default {
+      -fx-text-fill: #ffffff;
+    }
+
+    .button {
+      -fx-padding: $primary-padding;
+    }
+  }
+
+  #comment-box-pane {
+    -fx-padding: $primary-padding;
+  }
+
+  #comment-box {
+    -fx-pref-width: 100px;
+    -fx-max-width: 300px;
+  }
+
   #button-pane {
-    -fx-padding: 20 0 0 35;
+    -fx-padding: $primary-padding;
 
     .button {
       -fx-background-color: #2d3a4c;

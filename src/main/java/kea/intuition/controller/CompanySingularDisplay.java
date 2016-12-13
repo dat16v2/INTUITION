@@ -5,6 +5,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import java.util.ArrayList;
+
+import javafx.stage.Stage;
 import kea.intuition.Intuition;
 import kea.intuition.Tools;
 import kea.intuition.data.CompanyContainer;
@@ -19,6 +21,7 @@ public class CompanySingularDisplay {
     private Company company;
     private ModifiedValues modifiedValues;
     private String integrityHash;
+    private Stage stage;
 
     public String getIntegrityHash() {
         return integrityHash;
@@ -40,12 +43,19 @@ public class CompanySingularDisplay {
         return company;
     }
 
-    public CompanySingularDisplay(Company company) {
-        lock = new Lock(this);
+    public Stage getStage() {
+        return stage;
+    }
+
+    public CompanySingularDisplay(Company company, Stage stage) {
+        this.stage = stage;
+        lock = new Lock(this); // Used alongside IntuitionLockEvent to handling locking of UI elements.
         this.company = company;
         this.layout = new VBox(0);
         if (company != null) {
             this.integrityHash = Tools.getCompanyHash(company);
+            CompanyContainer.setCurrentCompanyHash(company.getHash());
+            System.out.printf("Setting new company hash(%s): %s\n", company.getName(),CompanyContainer.getCurrentCompanyHash());
         }
         setModifiedValues(new ModifiedValues());
         setLockedLayout();
@@ -65,6 +75,9 @@ public class CompanySingularDisplay {
 
         lockPane.setRight(lock.getLabel());
 
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Make sure the horizontal scroll bar does not appear.
+
         // Body of display
         VBox content = new VBox(2);
 
@@ -76,7 +89,6 @@ public class CompanySingularDisplay {
             // Phone number
             HBox companyPhoneNumberPane = new HBox(5);
             companyPhoneNumberPane.setId("phone-number-box");
-            //companyPhoneNumberPane.setStyle("-fx-text-fill: #ffffff; -fx-font-family: 'Open Sans'; -fx-font-weight: 300; -fx-padding: 5 0 0 35; -fx-font-size: 15px;");
 
             Label companyPhoneNumberPrefixLabel = new Label(String.format("+%s%s", company.getPhoneNumberPrefix(), company.getPhoneNumberCountryCallingCode()));
             companyPhoneNumberPrefixLabel.getStyleClass().add("text-label");
@@ -102,11 +114,14 @@ public class CompanySingularDisplay {
             content.getChildren().addAll(companyNameLabel, companyPhoneNumberPane, companyEmailPane, getCompanyNotes, noteAdder);
         }
 
-        layout.getChildren().addAll(paddingTopContent, lockPane, content);
+        scrollPane.setContent(content);
+
+        layout.getChildren().addAll(paddingTopContent, lockPane, scrollPane);
     }
 
     private VBox getCompanyNotes() {
         VBox vBox = new VBox(5);
+        vBox.setId("comments-box");
         ArrayList<Note> notes = company.getNotes();
 
         for (int i = 0; i < notes.size(); i++) {
@@ -114,7 +129,9 @@ public class CompanySingularDisplay {
             VBox innerVBox = new VBox(5);
 
             Label infoLabel = new Label("Posted by " + Intuition.Config.getDb().getDbUsername( note.getUserId()) + " | On " + Tools.convertTime(note.getTimestamp()));
+            infoLabel.getStyleClass().add("label-default");
             Label commentLabel = new Label("Comment: " + note.getComment());
+            commentLabel.getStyleClass().add("label-default");
 
             innerVBox.getChildren().addAll(infoLabel, commentLabel);
 
@@ -126,7 +143,9 @@ public class CompanySingularDisplay {
 
     private VBox noteAdder(int companyID) {
         VBox vBox = new VBox(5);
+        vBox.setId("comment-box-pane");
         TextArea textArea = new TextArea();
+        textArea.setId("comment-box");
         Button addNoteButton = new Button("Submit Note");
 
         Note note = new Note();
@@ -142,6 +161,9 @@ public class CompanySingularDisplay {
                     note.setComment(textArea.getText());
 
                     CompanyContainer.saveExistingNotesToDb(note);
+
+                    // Error checking does not occur here, which means the success alert will show up whether it is successful or not.
+                    // Currently put this in the backlog priority.
 
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Success");

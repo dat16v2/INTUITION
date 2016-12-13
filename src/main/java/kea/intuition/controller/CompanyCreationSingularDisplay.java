@@ -75,6 +75,7 @@ public class CompanyCreationSingularDisplay {
         cancelButton.addButtonHandler(new IndexScreen.ButtonHandler() {
             @Override
             public void handle() {
+                // Initiate the IntuitionLockEvent, unlocking the UI.
                 IntuitionLockEvent.fireEvent(stage, new IntuitionLockEvent(null, null, IntuitionLockEvent.LOCK_CHANGED_ROOT_EVENT, true));
                 Company company = (Company) CompanyContainer.getTableStructure().getSelectionModel().getSelectedItem();
                 CompanyContainer.getTableStructure().getSelectionModel().clearSelection();
@@ -87,7 +88,16 @@ public class CompanyCreationSingularDisplay {
         submitButton.addButtonHandler(new IndexScreen.ButtonHandler() {
             @Override
             public void handle() {
+                Company company = new Company();
+
+                company.setName(getModifiedValues().getCompanyNameField().getText());
+                company.setPhoneNumber(getModifiedValues().getCompanyPhoneNumberField().getText());
+                company.setEmail(getModifiedValues().getCompanyEmailField().getText());
+
+                CompanyContainer.addCompany(company);
                 System.out.println("Submit");
+                // Initiate the IntuitionLockEvent, unlocking the UI.
+                IntuitionLockEvent.fireEvent(stage, new IntuitionLockEvent(null, null, IntuitionLockEvent.LOCK_CHANGED_ROOT_EVENT, true));
             }
         });
 

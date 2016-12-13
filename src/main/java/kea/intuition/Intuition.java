@@ -67,7 +67,7 @@ public class Intuition {
         private static EventScreen eventScreen;
         private static LoginScreen loginScreen;
 
-        static IndexScreen getIndexScreen() {
+        public static IndexScreen getIndexScreen() {
             return indexScreen;
         }
 
@@ -75,7 +75,7 @@ public class Intuition {
             Screens.indexScreen = indexScreen;
         }
 
-        static EventScreen getEventScreen() {
+        public static EventScreen getEventScreen() {
             return eventScreen;
         }
 
@@ -83,7 +83,7 @@ public class Intuition {
             Screens.eventScreen = eventScreen;
         }
 
-        static LoginScreen getLoginScreen() {
+        public static LoginScreen getLoginScreen() {
             return loginScreen;
         }
 
@@ -166,6 +166,7 @@ public class Intuition {
             }
         });
 
+        // Handle UI lock event
         stage.addEventHandler(IntuitionLockEvent.LOCK_CHANGED_ROOT_EVENT, new IntuitionLockEventHandler());
 
         Screens.setLoginScreen(new LoginScreen(stage));

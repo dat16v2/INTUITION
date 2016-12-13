@@ -28,6 +28,7 @@ import java.util.function.Predicate;
 // ID: 1
 public class IndexScreen extends IScene {
     private int currentCompanySelection = 0;
+    private TextField searchField;
 
     public IndexScreen(Stage stage) {
         sceneId = 1;
@@ -47,16 +48,15 @@ public class IndexScreen extends IScene {
 
         CompanyContainer.setTableStructure(getCompaniesTable());
 
-        CompanySingularDisplay companySingularDisplay = new CompanySingularDisplay((Company) CompanyContainer.getTableStructure().getItems().get(0));
+        CompanySingularDisplay companySingularDisplay = new CompanySingularDisplay((Company) CompanyContainer.getTableStructure().getItems().get(0), stage);
         Pane companyDisplay = companySingularDisplay.getCompanyDisplay();
         VBox companiesTablePane = new VBox(0);
-        companiesTablePane.setVgrow(CompanyContainer.getTableStructure(), Priority.ALWAYS);
-
-        TextField searchField = new TextField();
-        Pane seachFieldPane = new StackPane();
-        HBox searchFieldPaneItems = new HBox(0);
+        companiesTablePane.setVgrow(CompanyContainer.getTableStructure(), Priority.ALWAYS); // Used to make the table scale vertically with window size.
 
         // Search field
+        searchField = new TextField();
+        Pane seachFieldPane = new StackPane();
+        HBox searchFieldPaneItems = new HBox(0);
 
         searchFieldPaneItems.setAlignment(Pos.CENTER);
         seachFieldPane.setId("search-field");
@@ -93,6 +93,7 @@ public class IndexScreen extends IScene {
                 addSignLabel.setId("add-sign-label-hover");
                 CompanyCreationSingularDisplay companyCreationSingularDisplay = new CompanyCreationSingularDisplay(stage);
                 layout.setCenter(companyCreationSingularDisplay.getLayout());
+                // Initiates IntuitionLockEvent, locking certain UI elements.
                 IntuitionLockEvent.fireEvent(stage, new IntuitionLockEvent(null, null, IntuitionLockEvent.LOCK_CHANGED_ROOT_EVENT, false));
             }
         });
@@ -130,6 +131,7 @@ public class IndexScreen extends IScene {
         Thread asyncDbSync = new Thread(new DatabaseBackgroundSyncAsync(this.stage, searchField), "async-db-sync");
         asyncDbSync.start();
 
+        // Handle UI lock event
         scene.addEventHandler(IntuitionLockEvent.LOCK_CHANGED_EVENT, new EventHandler<IntuitionLockEvent>() {
             @Override
             public void handle(IntuitionLockEvent event) {
@@ -146,25 +148,10 @@ public class IndexScreen extends IScene {
         });
     }
 
-    private void setTextFieldWidthProperly(TextField value) {
-        value.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                /*
-                TextLayout layout = Toolkit.getToolkit().getTextLayoutFactory().createLayout();
-                layout.setContent(value.getText() != null ? value.getText() : "", value.getFont().impl_getNativeFont());
-                layout.setWrapWidth((float)0.0D);
-
-                value.setPrefWidth(layout.getBounds().getWidth());
-                */
-                value.setPrefColumnCount(value.getText().length() + 1);
-            }
-        });
-    }
-
     private TableView getCompaniesTable() {
         TableView companiesTable = new TableView();
 
+        // Add table columns
         TableColumn<Company, Integer> companyId = new TableColumn<>("ID");
         companyId.setCellValueFactory(new PropertyValueFactory<Company, Integer>("id"));
 
@@ -179,13 +166,14 @@ public class IndexScreen extends IScene {
         //companiesTable.setMinWidth(400);
         //companiesTable.getStyleClass().add("companyTable");
 
-        // test data
+        // Set table data
         CompanyContainer.setData(CompanyContainer.getCompaniesFromDb());
 
         companiesTable.setItems(CompanyContainer.getData());
 
         companiesTable.getSelectionModel().selectFirst();
 
+        // Upon changing selected row, if the company is different, replace the CompanySingularDisplay.
         companiesTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Company>() {
             @Override
             public void changed(ObservableValue observable, Company oldValue, Company newValue) {
@@ -195,9 +183,14 @@ public class IndexScreen extends IScene {
                     currentCompanySelection = (newValue.getId() - 1);
                 }
 
-                CompanySingularDisplay companySingularDisplay = new CompanySingularDisplay(newValue);
-                Pane companyDisplay = companySingularDisplay.getCompanyDisplay();
-                layout.setCenter(companyDisplay);
+
+                if (newValue != null) {
+                    if (!Tools.validateCompanyHash(newValue, CompanyContainer.getCurrentCompanyHash())) {
+                        CompanySingularDisplay companySingularDisplay = new CompanySingularDisplay(newValue, stage);
+                        Pane companyDisplay = companySingularDisplay.getCompanyDisplay();
+                        layout.setCenter(companyDisplay);
+                    }
+                }
             }
         });
 
@@ -243,18 +236,6 @@ public class IndexScreen extends IScene {
                     button.getStyleClass().add("button");
                 }
             });
-
-            button.addEventHandler(MouseEvent.ANY, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    /*
-                    for (int i = 0; i < button.getStyleClass().size(); i++) {
-                        System.out.println(button.getStyleClass().get(i));
-                    }
-                    */
-
-                }
-            });
         }
 
         public javafx.scene.control.Button getButton() {
@@ -274,5 +255,9 @@ public class IndexScreen extends IScene {
 
     public interface ButtonHandler  {
         void handle();
+    }
+
+    public TextField getSearchField() {
+        return searchField;
     }
 }
