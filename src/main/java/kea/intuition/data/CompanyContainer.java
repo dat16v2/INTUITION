@@ -99,6 +99,8 @@ public class CompanyContainer {
         localCompany.setPhoneNumberCountryCallingCode(newCompany.getPhoneNumberCountryCallingCode());
         localCompany.setPhoneNumberPrefix(newCompany.getPhoneNumberPrefix());
 
+        // Update the table view and various lists(filtering, sorting, etc..)
+
         int selected = CompanyContainer.getTableStructure().getSelectionModel().getSelectedIndex();
 
         CompanyContainer.setFilteredList(new FilteredList<Company>(CompanyContainer.getData(), new Predicate<Company>() {

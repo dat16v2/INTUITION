@@ -166,6 +166,7 @@ public class Intuition {
             }
         });
 
+        // Handle UI lock event
         stage.addEventHandler(IntuitionLockEvent.LOCK_CHANGED_ROOT_EVENT, new IntuitionLockEventHandler());
 
         Screens.setLoginScreen(new LoginScreen(stage));

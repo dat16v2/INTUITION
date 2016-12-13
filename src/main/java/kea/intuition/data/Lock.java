@@ -50,6 +50,7 @@ public class Lock {
                     setLocked(false);
                     companySingularDisplay.setUnlockedLayout();
                 }else {
+                    // Check whether the hash from before editing and a hash from the DB right now matches. We realise that this solution is not perfect, perhaps some sort of atomic lock would do the job.
                     if (Tools.validateCompanyHash(CompanyContainer.getCompanyFromDb(companySingularDisplay.getCompany().getId()), companySingularDisplay.getIntegrityHash())) {
                         System.out.println("The hashes corresponds.");
                         Company newCompany = new Company();

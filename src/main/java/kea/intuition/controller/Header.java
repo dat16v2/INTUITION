@@ -107,8 +107,9 @@ public class Header {
                             Intuition.setnIsMaximized(false);
                             break;
                         default:
-                            scene.stage.setWidth(800);
-                            scene.stage.setHeight(500);
+                            // Set the default width and height of window and afterwards center it on the current screen.
+                            scene.stage.setWidth(Intuition.Config.getMINWIDTH());
+                            scene.stage.setHeight(Intuition.Config.getMINHEIGHT());
                             scene.stage.centerOnScreen();
                             Intuition.setnIsMaximized(false);
                             break;
@@ -120,10 +121,14 @@ public class Header {
                             Intuition.setnIsMaximized(true);
                             break;
                         default:
-                            Screen screen = Screen.getScreensForRectangle(scene.stage.getX(), scene.stage.getY(), scene.stage.getWidth(), scene.stage.getHeight()).get(0);
-                            Rectangle2D bounds = screen.getVisualBounds();
+                            // Get the screen where the window currently resides
+                            Screen screenWithCurrentWindow = Screen.getScreensForRectangle(scene.stage.getX(), scene.stage.getY(), scene.stage.getWidth(), scene.stage.getHeight()).get(0);
+                            // Get the actual available space available on the screen, e.g. not where the bar with Windows logo resides nor the OSX top menu bar.
+                            Rectangle2D bounds = screenWithCurrentWindow.getVisualBounds();
+                            // Set the window to the starting point of the available space.
                             scene.stage.setX(bounds.getMinX());
                             scene.stage.setY(bounds.getMinY());
+                            // Resize the window to fill the available space.
                             scene.stage.setWidth(bounds.getWidth());
                             scene.stage.setHeight(bounds.getHeight());
                             Intuition.setnIsMaximized(true);
@@ -174,6 +179,7 @@ public class Header {
             header.getChildren().add(menuBarPane);
         }
 
+        // contextClassLoader is used to get the working directory of the current thread.
         final ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         header.getStylesheets().add(contextClassLoader.getResource("css/header.css").toExternalForm());
 

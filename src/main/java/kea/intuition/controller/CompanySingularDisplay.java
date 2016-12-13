@@ -49,7 +49,7 @@ public class CompanySingularDisplay {
 
     public CompanySingularDisplay(Company company, Stage stage) {
         this.stage = stage;
-        lock = new Lock(this);
+        lock = new Lock(this); // Used alongside IntuitionLockEvent to handling locking of UI elements.
         this.company = company;
         this.layout = new VBox(0);
         if (company != null) {
@@ -76,7 +76,7 @@ public class CompanySingularDisplay {
         lockPane.setRight(lock.getLabel());
 
         ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Make sure the horizontal scroll bar does not appear.
 
         // Body of display
         VBox content = new VBox(2);
@@ -89,7 +89,6 @@ public class CompanySingularDisplay {
             // Phone number
             HBox companyPhoneNumberPane = new HBox(5);
             companyPhoneNumberPane.setId("phone-number-box");
-            //companyPhoneNumberPane.setStyle("-fx-text-fill: #ffffff; -fx-font-family: 'Open Sans'; -fx-font-weight: 300; -fx-padding: 5 0 0 35; -fx-font-size: 15px;");
 
             Label companyPhoneNumberPrefixLabel = new Label(String.format("+%s%s", company.getPhoneNumberPrefix(), company.getPhoneNumberCountryCallingCode()));
             companyPhoneNumberPrefixLabel.getStyleClass().add("text-label");
@@ -162,6 +161,9 @@ public class CompanySingularDisplay {
                     note.setComment(textArea.getText());
 
                     CompanyContainer.saveExistingNotesToDb(note);
+
+                    // Error checking does not occur here, which means the success alert will show up whether it is successful or not.
+                    // Currently put this in the backlog priority.
 
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Success");
