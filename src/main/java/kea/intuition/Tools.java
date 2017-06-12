@@ -16,6 +16,7 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.Properties;
 import kea.intuition.controller.IScene;
+import kea.intuition.model.Candidate;
 import kea.intuition.model.Company;
 
 public class Tools {
@@ -80,6 +81,15 @@ public class Tools {
 
     public static boolean validateCompanyHash(Company company, String hash) {
         return hash.equals(getCompanyHash(company));
+    }
+
+    public static String getCandidateHash(Candidate candidate) {
+        String payload = String.format("%s", candidate.getName());
+        return getHash(payload);
+    }
+
+    public static boolean validateCandidateHash(Candidate canidate, String hash) {
+        return hash.equals(getCandidateHash(canidate));
     }
 
     //Convert date

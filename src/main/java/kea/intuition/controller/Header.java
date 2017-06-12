@@ -172,9 +172,11 @@ public class Header {
 
             addLabel("Company", 1, menuBarPane, scene);
 
-            addLabel("Events", 2, menuBarPane, scene);
+            addLabel("Candidates", 2, menuBarPane, scene);
 
-            addLabel("Placeholder", 3, menuBarPane, scene);
+            addLabel("Events", 3, menuBarPane, scene);
+
+            addLabel("Placeholder", 4, menuBarPane, scene);
 
             header.getChildren().add(menuBarPane);
         }

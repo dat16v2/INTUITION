@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import kea.intuition.controller.CandidateScreen;
 import kea.intuition.controller.EventScreen;
 import kea.intuition.controller.IndexScreen;
 import kea.intuition.controller.LoginScreen;
@@ -64,6 +65,7 @@ public class Intuition {
 
     public static class Screens {
         private static IndexScreen indexScreen;
+        private static CandidateScreen candidateScreen;
         private static EventScreen eventScreen;
         private static LoginScreen loginScreen;
 
@@ -73,6 +75,14 @@ public class Intuition {
 
         static void setIndexScreen(IndexScreen indexScreen) {
             Screens.indexScreen = indexScreen;
+        }
+
+        public static CandidateScreen getCandidateScreen() {
+            return candidateScreen;
+        }
+
+        static void setCandidateScreen(CandidateScreen candidateScreen) {
+            Screens.candidateScreen = candidateScreen;
         }
 
         public static EventScreen getEventScreen() {
@@ -138,6 +148,7 @@ public class Intuition {
                     if (User.checkUser(event.getUser().getUsername(), event.getUser().getPassword())) {
                         Intuition.setIsLoggedIn(true);
                         Intuition.Screens.setIndexScreen(new IndexScreen(stage));
+                        Intuition.Screens.setCandidateScreen(new CandidateScreen(stage));
                         Intuition.Screens.setEventScreen(new EventScreen(stage));
                         stage.setScene(Intuition.Screens.getIndexScreen().getScene());
                     } else {
@@ -160,6 +171,9 @@ public class Intuition {
                         stage.setScene(Intuition.Screens.getIndexScreen().getScene());
                         break;
                     case 2:
+                        stage.setScene(Intuition.Screens.getCandidateScreen().getScene());
+                        break;
+                    case 3:
                         stage.setScene(Intuition.Screens.getEventScreen().getScene());
                         break;
                 }
